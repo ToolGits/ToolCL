@@ -4,6 +4,10 @@ ToolCL is a lightweight framework written in C, focused on simplicity, portabili
 
 The project aims to provide a small collection of reusable components for building applications without unnecessary complexity.
 
+# Official maintainer of ToolCL
+
+ToolCL is maintained by the **ToolGits** organization and created by **enzobobdevvideos04-ctrl** (GitBob).
+
 ## Features
 
 - Lightweight architecture
