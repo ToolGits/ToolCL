@@ -1,9 +1,9 @@
 #ifndef TOOLCL_MATH_H
 #define TOOLCL_MATH_H
 
-int toolcl_add(int a, int b);
-int toolcl_sub(int a, int b);
-int toolcl_mul(int a, int b);
-int toolcl_div(int a, int b);
+float toolcl_addf(float a, float b);
+float toolcl_subf(float a, float b);
+float toolcl_mulf(float a, float b);
+float toolcl_divf(float a, float b);
 
 #endif
