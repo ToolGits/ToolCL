@@ -6,7 +6,7 @@ The project aims to provide a small collection of reusable components for buildi
 
 # Official maintainer of ToolCL
 
-ToolCL is maintained by the **ToolGits** organization:
+Maintained by the **ToolGits** organization:
 
 - ToolGits: https://github.com/ToolGits
 - Created by: https://github.com/enzobobdevvideos04-ctrl
@@ -23,7 +23,7 @@ ToolCL is maintained by the **ToolGits** organization:
 
 ToolCL follows a simple principle:
 
-«Keep it small, keep it portable, keep it simple.»
+Keep it small, keep it portable, keep it simple.
 
 The goal is to provide useful building blocks while remaining easy to understand and maintain.
 
@@ -51,7 +51,7 @@ Example:
 
 - Linux
 - Windows
-- Other platforms may be supported in the future
+- Cross-platform support depending on environment
 
 ## License
 
