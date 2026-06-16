@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 99)
 
 add_library(toolcl
     src/logger.c
+    src/math.c
 )
 
 target_include_directories(toolcl PUBLIC
