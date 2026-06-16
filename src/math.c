@@ -1,24 +1,24 @@
 #include <toolcl/math.h>
 
-int toolcl_add(int a, int b)
+float toolcl_addf(float a, float b)
 {
     return a + b;
 }
 
-int toolcl_sub(int a, int b)
+float toolcl_subf(float a, float b)
 {
     return a - b;
 }
 
-int toolcl_mul(int a, int b)
+float toolcl_mulf(float a, float b)
 {
     return a * b;
 }
 
-int toolcl_div(int a, int b)
+float toolcl_divf(float a, float b)
 {
-    if (b == 0)
-        return 0;
+    if (b == 0.0f)
+        return 0.0f;
 
     return a / b;
 }
