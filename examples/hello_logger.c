@@ -2,8 +2,12 @@
 
 int main(void)
 {
-    toolcl_log("Hello from ToolCL!");
-    toolcl_log("Here is the logger");
-    toolcl_log("Goodbye!");
+    toolcl_log("Classic ToolCL log");
+
+    toolcl_log_debug("Debug message");
+    toolcl_log_info("Info message");
+    toolcl_log_warn("Warning message");
+    toolcl_log_error("Error message");
+
     return 0;
 }
