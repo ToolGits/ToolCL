@@ -4,6 +4,7 @@ int main(void)
 {
     toolcl_log("Classic ToolCL log");
 
+    toolcl_log("Logger initialized");
     toolcl_log_debug("Debug message");
     toolcl_log_info("Info message");
     toolcl_log_warn("Warning message");
