@@ -1,4 +1,4 @@
-#include "toolcl/math.h"
+#include <toolcl/math.h>
 
 int toolcl_add(int a, int b)
 {
