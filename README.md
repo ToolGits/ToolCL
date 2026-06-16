@@ -6,7 +6,7 @@ The project aims to provide a small collection of reusable components for buildi
 
 # Official maintainer of ToolCL
 
-ToolCL is maintained by the **ToolGits** organization and created by **enzobobdevvideos04-ctrl** (GitBob).
+ToolCL is maintained by the **ToolGits** (https://github.com/ToolGits) organization and created by **enzobobdevvideos04-ctrl** (https://github.com/enzobobdevvideos04-ctrl)
 
 ## Features
 
