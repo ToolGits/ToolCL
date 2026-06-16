@@ -20,3 +20,11 @@ add_executable(hello_logger
 target_link_libraries(hello_logger
     toolcl
 )
+
+add_executable(hello_math
+    examples/hello_math.c
+)
+
+target_link_libraries(hello_math
+    toolcl
+)
