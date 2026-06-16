@@ -13,6 +13,7 @@ set(TOOLCL_SOURCES
     src/logger.c
     src/math.c
     src/vec2.c
+    src/string.c
 )
 
 add_library(toolcl STATIC
@@ -39,6 +40,11 @@ add_executable(hello_vec2
     examples/hello_vec2.c
 )
 
+add_executable(hello_string
+    examples/hello_string.c
+)
+
+target_link_libraries(hello_string toolcl)
 target_link_libraries(hello_logger toolcl)
 target_link_libraries(hello_math toolcl)
 target_link_libraries(hello_vec2 toolcl)
