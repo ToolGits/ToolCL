@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "toolcl/math.h"
+#include <toolcl/math.h>
 
 int main(void)
 {
