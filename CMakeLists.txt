@@ -7,6 +7,7 @@ set(CMAKE_C_STANDARD 99)
 add_library(toolcl
     src/logger.c
     src/math.c
+    src/vec2.c
 )
 
 target_include_directories(toolcl PUBLIC
@@ -28,3 +29,9 @@ add_executable(hello_math
 target_link_libraries(hello_math
     toolcl
 )
+
+add_executable(hello_vec2
+    examples/hello_vec2.c
+)
+
+target_link_libraries(hello_vec2 toolcl)
