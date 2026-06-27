@@ -53,3 +53,8 @@ int toolcl_hello_world_run(void)
 
     return 1;
 }
+
+int main(void)
+{
+    return toolcl_hello_world_run();
+}
