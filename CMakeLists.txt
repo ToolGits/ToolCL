@@ -29,6 +29,7 @@ set(TOOLCL_SOURCES
     src/math.c
     src/vec2.c
     src/string.c
+    src/hello_world.c
 )
 
 add_library(toolcl STATIC
@@ -61,6 +62,10 @@ add_executable(hello_string
     examples/hello_string.c
 )
 
+add_executable(hello_world
+    examples/hello_world.c
+)
+
 # =========================
 # LINK EXAMPLES
 # =========================
@@ -70,6 +75,7 @@ foreach(example
     hello_math
     hello_vec2
     hello_string
+    hello_world
 )
     target_link_libraries(${example} PRIVATE toolcl)
 endforeach()
@@ -84,6 +90,7 @@ add_custom_target(examples
         hello_math
         hello_vec2
         hello_string
+        hello_world
 )
 
 endif()
