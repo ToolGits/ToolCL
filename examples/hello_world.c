@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include <toolcl/hello_world.h>
 
 static int check_input(const char *expected)
@@ -19,11 +21,7 @@ static int check_input(const char *expected)
     return 0;
 }
 
-/* =========================
-   HELLO WORLD TEST FLOW
-========================= */
-
-int toolcl_hello_world_run(void)
+static int classic_mode(void)
 {
     printf("=== ToolCL Hello World Test ===\n\n");
 
@@ -48,10 +46,71 @@ int toolcl_hello_world_run(void)
     printf("Write: nux\n");
     if (!check_input("nux")) return 0;
 
-    printf("\n✔ Linux detected!\n");
-    printf("✔ All tests passed successfully!\n");
+    printf("\nLinux detected!\n");
+    printf("All tests passed successfully!\n");
 
     return 1;
+}
+
+static int random_mode(void)
+{
+    const char *pool[] = {
+        "A", "B", "C",
+        "123", "1206",
+        "Li", "nux",
+        "Linux",
+        "ToolCL",
+        "D", "E", "F",
+        "g",
+        "win", "dows",
+        "mac", "os",
+        "Arch"
+    };
+
+    int size = sizeof(pool) / sizeof(pool[0]);
+
+    printf("=== RANDOM MODE ===\n\n");
+    printf("Survive as long as you can...\n\n");
+
+    srand((unsigned int)time(NULL));
+
+    int round = 1;
+
+    while (1)
+    {
+        const char *expected = pool[rand() % size];
+
+        printf("[Round %d] Write: %s\n", round, expected);
+
+        if (!check_input(expected))
+        {
+            printf("Game Over at round %d\n", round);
+            return 0;
+        }
+
+        round++;
+    }
+}
+
+int toolcl_hello_world_run(void)
+{
+    int mode;
+
+    printf("=== ToolCL Hello World ===\n\n");
+
+    printf("Select mode:\n");
+    printf("[0] Classic Mode\n");
+    printf("[1] Random Mode\n");
+    printf("> ");
+
+    scanf("%d", &mode);
+
+    printf("\n");
+
+    if (mode == 0)
+        return classic_mode();
+
+    return random_mode();
 }
 
 int main(void)
