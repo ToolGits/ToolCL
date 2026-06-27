@@ -50,7 +50,7 @@ Example:
 ## Platforms
 
 - Linux
-- Windows
+- Windows (Coming Soon)
 - Cross-platform support depending on environment
 
 ## License
