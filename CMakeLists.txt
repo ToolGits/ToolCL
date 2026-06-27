@@ -1,9 +1,24 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ToolCL VERSION 0.1.0 LANGUAGES C)
+project(ToolCL VERSION 0.2.0 LANGUAGES C)
+
+message(STATUS "Configuring ToolCL ${PROJECT_VERSION}")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# =========================
+# OPTIONS
+# =========================
+
+option(TOOLCL_BUILD_EXAMPLES "Build ToolCL examples" ON)
+
+# =========================
+# OUTPUT DIRECTORIES
+# =========================
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # =========================
 # LIBRARY
@@ -28,6 +43,8 @@ target_include_directories(toolcl PUBLIC
 # EXAMPLES
 # =========================
 
+if(TOOLCL_BUILD_EXAMPLES)
+
 add_executable(hello_logger
     examples/hello_logger.c
 )
@@ -44,7 +61,29 @@ add_executable(hello_string
     examples/hello_string.c
 )
 
-target_link_libraries(hello_string toolcl)
-target_link_libraries(hello_logger toolcl)
-target_link_libraries(hello_math toolcl)
-target_link_libraries(hello_vec2 toolcl)
+# =========================
+# LINK EXAMPLES
+# =========================
+
+foreach(example
+    hello_logger
+    hello_math
+    hello_vec2
+    hello_string
+)
+    target_link_libraries(${example} PRIVATE toolcl)
+endforeach()
+
+# =========================
+# EXAMPLES TARGET
+# =========================
+
+add_custom_target(examples
+    DEPENDS
+        hello_logger
+        hello_math
+        hello_vec2
+        hello_string
+)
+
+endif()
