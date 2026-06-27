@@ -32,6 +32,7 @@ The goal is to provide useful building blocks while remaining easy to understand
 - Logger
 - Math utilities
 - Vec2
+- Hello World
 
 - New modules will be available in more recent versions.
 
