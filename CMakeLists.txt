@@ -29,7 +29,6 @@ set(TOOLCL_SOURCES
     src/math.c
     src/vec2.c
     src/string.c
-    src/hello_world.c
 )
 
 add_library(toolcl STATIC
