@@ -64,7 +64,12 @@ static int random_mode(void)
         "g",
         "win", "dows",
         "mac", "os",
-        "Arch"
+        "Arch",
+	"Steam", "Deck",
+	"De", "bian",
+	"git",
+	"hub",
+	"Six", "Seven"
     };
 
     int size = sizeof(pool) / sizeof(pool[0]);
