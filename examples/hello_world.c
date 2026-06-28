@@ -21,6 +21,16 @@ static int check_input(const char *expected)
     return 0;
 }
 
+static int ask_replay(void)
+{
+    char answer;
+
+    printf("\nPlay again? (y/n): ");
+    scanf(" %c", &answer);
+
+    return (answer == 'y' || answer == 'Y');
+}
+
 static int classic_mode(void)
 {
     printf("=== ToolCL Hello World Test ===\n\n");
@@ -49,7 +59,8 @@ static int classic_mode(void)
     printf("\nLinux detected!\n");
     printf("All tests passed successfully!\n");
 
-    return 1;
+    printf("Game Over\n");
+    return 0;
 }
 
 static int random_mode(void)
@@ -65,19 +76,17 @@ static int random_mode(void)
         "win", "dows",
         "mac", "os",
         "Arch",
-	"Steam", "Deck",
-	"De", "bian",
-	"git",
-	"hub",
-	"Six", "Seven"
+        "Steam", "Deck",
+        "De", "bian",
+        "git",
+        "hub",
+        "Six", "Seven"
     };
 
     int size = sizeof(pool) / sizeof(pool[0]);
 
     printf("=== RANDOM MODE ===\n\n");
     printf("Survive as long as you can...\n\n");
-
-    srand((unsigned int)time(NULL));
 
     int round = 1;
 
@@ -94,31 +103,52 @@ static int random_mode(void)
         }
 
         round++;
+
+        if (rand() % 10 == 0)
+        {
+            printf("\nContinue? (y/n): ");
+            char c;
+            scanf(" %c", &c);
+
+            if (c != 'y' && c != 'Y')
+                break;
+        }
     }
-}
 
-int toolcl_hello_world_run(void)
-{
-    int mode;
-
-    printf("=== ToolCL Hello World ===\n\n");
-
-    printf("Select mode:\n");
-    printf("[0] Classic Mode\n");
-    printf("[1] Random Mode\n");
-    printf("> ");
-
-    scanf("%d", &mode);
-
-    printf("\n");
-
-    if (mode == 0)
-        return classic_mode();
-
-    return random_mode();
+    return 0;
 }
 
 int main(void)
 {
-    return toolcl_hello_world_run();
+    int mode;
+    int running = 1;
+
+    srand((unsigned int)time(NULL));
+
+    while (running)
+    {
+        printf("=== ToolCL Hello World ===\n\n");
+
+        printf("Select mode:\n");
+        printf("[0] Classic Mode\n");
+        printf("[1] Random Mode\n");
+        printf("> ");
+
+        scanf("%d", &mode);
+
+        printf("\n");
+
+        if (mode == 0)
+            classic_mode();
+        else
+            random_mode();
+
+        if (!ask_replay())
+        {
+            running = 0;
+            printf("\nThanks for playing!\n");
+        }
+    }
+
+    return 0;
 }
