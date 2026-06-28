@@ -65,6 +65,11 @@ add_executable(hello_world
     examples/hello_world.c
 )
 
+add_executable(hello_random
+    examples/hello_random.c
+)
+
+
 # =========================
 # LINK EXAMPLES
 # =========================
@@ -75,6 +80,7 @@ foreach(example
     hello_vec2
     hello_string
     hello_world
+    hello_random
 )
     target_link_libraries(${example} PRIVATE toolcl)
 endforeach()
@@ -90,6 +96,7 @@ add_custom_target(examples
         hello_vec2
         hello_string
         hello_world
+        hello_random
 )
 
 endif()
