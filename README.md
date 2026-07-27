@@ -10,6 +10,7 @@ Maintained by the **ToolGits** organization:
 
 - ToolGits: https://github.com/ToolGits
 - Created by: https://github.com/enzobobdevvideos04-ctrl
+- Discord server: https://discord.gg/NJY5BaxMZq (ToolGits SV)
 
 ## Features
 
