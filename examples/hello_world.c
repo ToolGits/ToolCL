@@ -4,6 +4,14 @@
 #include <time.h>
 #include <toolcl/hello_world.h>
 
+static void clear_input(void)
+{
+    int c;
+
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
 static int check_input(const char *expected)
 {
     char input[64];
