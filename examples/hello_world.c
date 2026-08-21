@@ -120,6 +120,7 @@ static int random_mode(void)
 
 int main(void)
 {
+    char mode_input[16];
     int mode;
     int running = 1;
 
@@ -134,14 +135,39 @@ int main(void)
         printf("[1] Random Mode\n");
         printf("> ");
 
-        scanf("%d", &mode);
+        if (scanf("%15s", mode_input) != 1)
+        {
+            printf("\nInvalid mode.\n\n");
+            clear_input();
+            continue;
+        }
+
+        clear_input();
+
+        if (strcmp(mode_input, "0") == 0)
+        {
+            mode = 0;
+        }
+        else if (strcmp(mode_input, "1") == 0)
+        {
+            mode = 1;
+        }
+        else
+        {
+            printf("\nInvalid mode.\n\n");
+            continue;
+        }
 
         printf("\n");
 
         if (mode == 0)
+        {
             classic_mode();
+        }
         else
+        {
             random_mode();
+        }
 
         if (!ask_replay())
         {
