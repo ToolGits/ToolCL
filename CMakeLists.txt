@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ToolCL VERSION 0.2.0 LANGUAGES C)
+project(ToolCL VERSION 0.3.0 LANGUAGES C)
 
 message(STATUS "Configuring ToolCL ${PROJECT_VERSION}")
 
@@ -11,14 +11,25 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 # OPTIONS
 # =========================
 
-option(TOOLCL_BUILD_EXAMPLES "Build ToolCL examples" ON)
+option(
+    TOOLCL_BUILD_EXAMPLES
+    "Build ToolCL examples"
+    ON
+)
 
 # =========================
 # OUTPUT DIRECTORIES
 # =========================
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set(
+    CMAKE_RUNTIME_OUTPUT_DIRECTORY
+    ${PROJECT_BINARY_DIR}/bin
+)
+
+set(
+    CMAKE_ARCHIVE_OUTPUT_DIRECTORY
+    ${PROJECT_BINARY_DIR}/lib
+)
 
 # =========================
 # LIBRARY
@@ -45,58 +56,63 @@ target_include_directories(toolcl PUBLIC
 
 if(TOOLCL_BUILD_EXAMPLES)
 
-add_executable(hello_logger
-    examples/hello_logger.c
-)
-
-add_executable(hello_math
-    examples/hello_math.c
-)
-
-add_executable(hello_vec2
-    examples/hello_vec2.c
-)
-
-add_executable(hello_string
-    examples/hello_string.c
-)
-
-add_executable(hello_world
-    examples/hello_world.c
-)
-
-add_executable(hello_random
-    examples/hello_random.c
-)
-
-
-# =========================
-# LINK EXAMPLES
-# =========================
-
-foreach(example
-    hello_logger
-    hello_math
-    hello_vec2
-    hello_string
-    hello_world
-    hello_random
-)
-    target_link_libraries(${example} PRIVATE toolcl)
-endforeach()
-
-# =========================
-# EXAMPLES TARGET
-# =========================
-
-add_custom_target(examples
-    DEPENDS
+    set(TOOLCL_EXAMPLES
         hello_logger
         hello_math
         hello_vec2
         hello_string
         hello_world
         hello_random
-)
+    )
+
+    add_executable(
+        hello_logger
+        examples/hello_logger.c
+    )
+
+    add_executable(
+        hello_math
+        examples/hello_math.c
+    )
+
+    add_executable(
+        hello_vec2
+        examples/hello_vec2.c
+    )
+
+    add_executable(
+        hello_string
+        examples/hello_string.c
+    )
+
+    add_executable(
+        hello_world
+        examples/hello_world.c
+    )
+
+    add_executable(
+        hello_random
+        examples/hello_random.c
+    )
+
+    # =========================
+    # LINK EXAMPLES
+    # =========================
+
+    foreach(example IN LISTS TOOLCL_EXAMPLES)
+        target_link_libraries(
+            ${example}
+            PRIVATE toolcl
+        )
+    endforeach()
+
+    # =========================
+    # EXAMPLES TARGET
+    # =========================
+
+    add_custom_target(
+        examples
+        DEPENDS ${TOOLCL_EXAMPLES}
+    )
 
 endif()
