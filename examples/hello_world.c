@@ -59,7 +59,7 @@ static int classic_mode(void)
     printf("\nLinux detected!\n");
     printf("All tests passed successfully!\n");
 
-    printf("Game Over\n");
+    printf("You won!\n");
     return 0;
 }
 
