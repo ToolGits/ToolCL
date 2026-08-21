@@ -74,7 +74,7 @@ cmake --build .
 
 ```text
 ToolCL/
-├── include/
+├── include/toolcl/
 ├── src/
 ├── examples/
 ├── CMakeLists.txt
