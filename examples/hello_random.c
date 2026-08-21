@@ -4,6 +4,14 @@
 #include <time.h>
 #include <toolcl/hello_world.h>
 
+static void clear_input(void)
+{
+    int c;
+
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
 static int check_input(const char *expected)
 {
     char input[64];
@@ -13,6 +21,7 @@ static int check_input(const char *expected)
     if (scanf("%63s", input) != 1)
     {
         printf("✖ Invalid input!\n\n");
+        clear_input();
         return 0;
     }
 
@@ -33,7 +42,12 @@ static int ask_replay(void)
     printf("\nPlay again? (y/n): ");
 
     if (scanf(" %c", &answer) != 1)
+    {
+        clear_input();
         return 0;
+    }
+
+    clear_input();
 
     return (answer == 'y' || answer == 'Y');
 }
@@ -113,12 +127,17 @@ static int random_mode(void)
 
         if (rand() % 10 == 0)
         {
-            printf("\nContinue? (y/n): ");
-
             char c;
 
+            printf("\nContinue? (y/n): ");
+
             if (scanf(" %c", &c) != 1)
+            {
+                clear_input();
                 return 0;
+            }
+
+            clear_input();
 
             if (c != 'y' && c != 'Y')
                 break;
@@ -147,13 +166,11 @@ int main(void)
         if (scanf("%d", &mode) != 1)
         {
             printf("\nInvalid mode.\n\n");
-
-            int c;
-            while ((c = getchar()) != '\n' && c != EOF)
-                ;
-
+            clear_input();
             continue;
         }
+
+        clear_input();
 
         printf("\n");
 
