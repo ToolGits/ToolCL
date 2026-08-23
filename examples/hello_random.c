@@ -1,199 +1,118 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include <toolcl/hello_world.h>
 
-static void clear_input(void)
+static int choose_number(void)
 {
-    int c;
+    int number;
 
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    while (1)
+    {
+        printf("Choose your lucky number (0-9): ");
+        scanf("%d", &number);
+
+        if (number >= 0 && number <= 9)
+            return number;
+
+        printf("Invalid number!\n\n");
+    }
 }
 
-static int check_input(const char *expected)
+static int generate_random(int *last_random)
 {
-    char input[64];
+    if (*last_random != -1 && (rand() % 100) < 30)
+        return *last_random;
 
-    printf("> ");
-
-    if (scanf("%63s", input) != 1)
-    {
-        printf("✖ Invalid input!\n\n");
-        clear_input();
-        return 0;
-    }
-
-    if (strcmp(input, expected) == 0)
-    {
-        printf("✔ Correct!\n\n");
-        return 1;
-    }
-
-    printf("✖ Wrong! Expected: %s\n\n", expected);
-    return 0;
+    *last_random = rand() % 10;
+    return *last_random;
 }
 
-static int ask_replay(void)
+static int ask_change_number(void)
 {
     char answer;
 
-    printf("\nPlay again? (y/n): ");
-
-    if (scanf(" %c", &answer) != 1)
-    {
-        clear_input();
-        return 0;
-    }
-
-    clear_input();
+    printf("Change lucky number? (y/n): ");
+    scanf(" %c", &answer);
 
     return (answer == 'y' || answer == 'Y');
 }
 
-static int classic_mode(void)
+static int ask_play_again(void)
 {
-    printf("=== ToolCL Hello World Test ===\n\n");
+    char answer;
 
-    printf("Write: A\n");
-    if (!check_input("A")) return 0;
+    printf("\nPlay again? (y/n): ");
+    scanf(" %c", &answer);
 
-    printf("Write: B\n");
-    if (!check_input("B")) return 0;
-
-    printf("Write: C\n");
-    if (!check_input("C")) return 0;
-
-    printf("Write: 123\n");
-    if (!check_input("123")) return 0;
-
-    printf("Write: 1206\n");
-    if (!check_input("1206")) return 0;
-
-    printf("Write: Li\n");
-    if (!check_input("Li")) return 0;
-
-    printf("Write: nux\n");
-    if (!check_input("nux")) return 0;
-
-    printf("\nLinux detected!\n");
-    printf("All tests passed successfully!\n");
-
-    printf("You won!\n");
-    return 1;
+    return (answer == 'y' || answer == 'Y');
 }
 
-static int random_mode(void)
+static void play_random_game(void)
 {
-    const char *pool[] = {
-        "A", "B", "C",
-        "123", "1206",
-        "Li", "nux",
-        "Linux",
-        "ToolCL",
-        "D", "E", "F",
-        "g",
-        "win", "dows",
-        "mac", "os",
-        "Arch",
-        "Steam", "Deck",
-        "De", "bian",
-        "git",
-        "hub",
-        "Six", "Seven"
-    };
-
-    int size = sizeof(pool) / sizeof(pool[0]);
-
-    printf("=== RANDOM MODE ===\n\n");
-    printf("Survive as long as you can...\n\n");
-
+    int lives = 5;
     int round = 1;
 
-    while (1)
+    int lucky_number;
+    int random_number;
+    int last_random = -1;
+
+    lucky_number = choose_number();
+
+    while (lives > 0)
     {
-        const char *expected = pool[rand() % size];
+        random_number = generate_random(&last_random);
 
-        printf("[Round %d] Write: %s\n", round, expected);
+        printf("\n====================\n");
+        printf("Round : %d\n", round);
+        printf("Lives : %d\n", lives);
+        printf("====================\n");
 
-        if (!check_input(expected))
+        printf("Lucky Number : %d\n", lucky_number);
+        printf("Rolling...\n");
+        printf("Result : %d\n\n", random_number);
+
+        if (random_number == lucky_number)
         {
-            printf("Game Over at round %d\n", round);
-            return 0;
+            printf("✔ Correct! Next round!\n");
+            round++;
         }
-
-        round++;
-
-        if (rand() % 10 == 0)
+        else
         {
-            char c;
+            lives--;
 
-            printf("\nContinue? (y/n): ");
+            printf("✖ Wrong!\n");
 
-            if (scanf(" %c", &c) != 1)
-            {
-                clear_input();
-                return 0;
-            }
-
-            clear_input();
-
-            if (c != 'y' && c != 'Y')
+            if (lives <= 0)
                 break;
+
+            printf("Lives left: %d\n\n", lives);
+
+            if (ask_change_number())
+            {
+                lucky_number = choose_number();
+            }
         }
     }
 
-    return 1;
+    printf("\n====================\n");
+    printf("Game Over!\n");
+    printf("Final Round : %d\n", round);
+    printf("====================\n");
 }
 
 int main(void)
 {
-    int mode;
-    int running = 1;
-
     srand((unsigned int)time(NULL));
 
-    while (running)
+    printf("=== ToolCL Hello Random ===\n\n");
+
+    do
     {
-        printf("=== ToolCL Hello World ===\n\n");
-
-        printf("Select mode:\n");
-        printf("[0] Classic Mode\n");
-        printf("[1] Random Mode\n");
-        printf("> ");
-
-        if (scanf("%d", &mode) != 1)
-        {
-            printf("\nInvalid mode.\n\n");
-            clear_input();
-            continue;
-        }
-
-        clear_input();
-
-        printf("\n");
-
-        if (mode == 0)
-        {
-            classic_mode();
-        }
-        else if (mode == 1)
-        {
-            random_mode();
-        }
-        else
-        {
-            printf("Invalid mode.\n");
-            continue;
-        }
-
-        if (!ask_replay())
-        {
-            running = 0;
-            printf("\nThanks for playing!\n");
-        }
+        play_random_game();
     }
+    while (ask_play_again());
+
+    printf("\nThanks for playing!\n");
 
     return 0;
 }
