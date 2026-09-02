@@ -1,47 +1,55 @@
-# ToolCL
+# ToolCL ⚙️
 
-ToolCL is a lightweight framework written in C, focused on simplicity, portability, and modular development.
+[![Status](https://img.shields.io/badge/status-Stable-brightgreen)](https://github.com/ToolGits/ToolCL)
+[![Version](https://img.shields.io/badge/version-0.3.0-blue)](https://github.com/ToolGits/ToolCL)
+[![Language](https://img.shields.io/badge/language-C-blue)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![Standard](https://img.shields.io/badge/standard-C99-orange)](https://en.wikipedia.org/wiki/C99)
+[![Build](https://img.shields.io/badge/build-CMake-064F8C)](https://cmake.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-The project provides a small collection of reusable components for building applications without unnecessary complexity.
+> A lightweight C framework focused on simplicity, portability, and modular development.
 
-## Official Maintainer
+> [!IMPORTANT]
+> **ToolCL 0.3.0 is the current stable version.**
 
-ToolCL is maintained by the **ToolGits** organization:
+## 🚀 About
 
-- ToolGits: https://github.com/ToolGits
-- Created by: https://github.com/enzobobdevvideos04-ctrl
-- Discord server: https://discord.gg/NJY5BaxMZq (ToolGits SV)
+**ToolCL** is a lightweight framework written in **C**, focused on providing simple and reusable components for application development.
 
-## Features
+The project is designed to remain small, portable, modular, and easy to understand.
 
-- Lightweight architecture
-- Written in pure C
-- C99 standard
-- Cross-platform design
-- Modular structure
-- Minimal dependencies
-- Static library support
+## ✨ Features
 
-## Philosophy
+- ⚡ Lightweight architecture
+- 🧩 Modular structure
+- 🔧 Written in pure C
+- 📐 C99 standard
+- 🌍 Cross-platform design
+- 📦 Minimal dependencies
+- 📚 Reusable components
+- 🏗️ Static library support
+
+## 💡 Philosophy
 
 ToolCL follows a simple principle:
 
-> Keep it small, keep it portable, keep it simple.
+> **Keep it small, keep it portable, keep it simple.**
 
-The goal is to provide useful building blocks while remaining easy to understand and maintain.
+The goal is to provide useful building blocks without unnecessary complexity.
 
-## Main Modules
+## 🧩 Main Modules
 
 - Logger
 - Math utilities
 - Vec2
 - String
 
-New modules may be introduced in future versions.
+> [!NOTE]
+> New modules may be introduced in future versions.
 
-## Examples
+## 🧪 Examples
 
-ToolCL currently includes the following examples:
+ToolCL currently includes:
 
 - `hello_logger`
 - `hello_math`
@@ -50,7 +58,7 @@ ToolCL currently includes the following examples:
 - `hello_world`
 - `hello_random`
 
-## Build System
+## 🔧 Build System
 
 ToolCL uses **CMake** as its official build system.
 
@@ -70,11 +78,15 @@ cmake -DTOOLCL_BUILD_EXAMPLES=OFF ..
 cmake --build .
 ```
 
-## Project Structure
+> [!TIP]
+> Disabling examples can be useful when ToolCL is being built only as a library.
+
+## 📁 Project Structure
 
 ```text
 ToolCL/
-├── include/toolcl/
+├── include/
+│   └── toolcl/
 ├── src/
 ├── examples/
 ├── CMakeLists.txt
@@ -82,12 +94,28 @@ ToolCL/
 └── LICENSE
 ```
 
-## Platforms
+## 🌍 Platforms
 
-- Linux
-- Windows (Coming Soon)
-- Cross-platform support depending on the environment
+- 🐧 Linux
+- 🪟 Windows — Coming Soon
+- 🌎 Other platforms — depending on the environment
 
-## License
+## 🏢 ToolGits
 
-MIT License
+ToolCL is maintained by the **ToolGits** organization.
+
+- Organization: https://github.com/ToolGits
+- Creator: https://github.com/enzobobdevvideos04-ctrl
+- Discord: https://discord.gg/NJY5BaxMZq
+
+## 📜 License
+
+ToolCL is licensed under the **MIT License**.
+
+See [`LICENSE`](LICENSE) for the full license text.
+
+---
+
+<p align="center">
+  <strong>ToolCL — Keep it small, keep it portable, keep it simple. ⚙️</strong>
+</p>
