@@ -140,7 +140,6 @@ int main(void)
 
     /*
      * Lighting variant intentionally leaves VSync disabled.
-     * hello_3d_vsync demonstrates glfwSwapInterval(1).
      */
     glfwSwapInterval(0);
 
