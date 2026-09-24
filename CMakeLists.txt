@@ -67,8 +67,16 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
     find_package(glfw3 CONFIG REQUIRED)
 
     add_executable(hello_3d examples/hello_3d.c)
+    add_executable(hello_3d_vsync examples/hello_3d_vsync.c)
 
     target_link_libraries(hello_3d
+        PRIVATE
+        toolcl
+        OpenGL::GL
+        glfw
+    )
+
+    target_link_libraries(hello_3d_vsync
         PRIVATE
         toolcl
         OpenGL::GL
