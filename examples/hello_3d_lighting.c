@@ -127,6 +127,15 @@ int main(void)
 
     glfwMakeContextCurrent(window);
 
+    glewExperimental = GL_TRUE;
+
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW.\n");
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return 1;
+    }
+
     /*
      * Lighting variant intentionally leaves VSync disabled.
      * hello_3d_vsync demonstrates glfwSwapInterval(1).
