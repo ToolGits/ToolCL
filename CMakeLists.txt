@@ -102,7 +102,6 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
         toolcl
         OpenGL::GL
         glfw
-        GLEW::GLEW
     )
 
 endif()
