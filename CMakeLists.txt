@@ -8,6 +8,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(TOOLCL_BUILD_EXAMPLES "Build ToolCL examples" ON)
+option(TOOLCL_BUILD_3D_EXAMPLE "Build ToolCL OpenGL 3D example" OFF)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
@@ -16,6 +17,8 @@ set(TOOLCL_SOURCES
     src/logger.c
     src/math.c
     src/vec2.c
+    src/vec3.c
+    src/mat4.c
     src/string.c
 )
 
@@ -54,6 +57,22 @@ if(TOOLCL_BUILD_EXAMPLES)
 
     add_custom_target(examples
         DEPENDS ${TOOLCL_EXAMPLES}
+    )
+
+endif()
+
+if(TOOLCL_BUILD_3D_EXAMPLE)
+
+    find_package(OpenGL REQUIRED)
+    find_package(glfw3 CONFIG REQUIRED)
+
+    add_executable(hello_3d examples/hello_3d.c)
+
+    target_link_libraries(hello_3d
+        PRIVATE
+        toolcl
+        OpenGL::GL
+        glfw
     )
 
 endif()
