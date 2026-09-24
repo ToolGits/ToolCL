@@ -4,6 +4,9 @@ size_t toolcl_string_length(const char *str)
 {
     size_t len = 0;
 
+    if (!str)
+        return 0;
+
     while (str[len] != '\0')
     {
         len++;
@@ -16,6 +19,9 @@ int toolcl_string_equals(const char *a,
                          const char *b)
 {
     size_t i = 0;
+
+    if (!a || !b)
+        return a == b;
 
     while (a[i] != '\0' &&
            b[i] != '\0')

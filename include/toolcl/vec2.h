@@ -4,14 +4,14 @@
 typedef struct {
     float x;
     float y;
-} CLVec2;
+} ToolCL_Vec2;
 
-CLVec2 cl_vec2(float x, float y);
+ToolCL_Vec2 toolcl_vec2(float x, float y);
 
-CLVec2 cl_vec2_add(CLVec2 a, CLVec2 b);
-CLVec2 cl_vec2_sub(CLVec2 a, CLVec2 b);
-CLVec2 cl_vec2_mul(CLVec2 v, float scalar);
+ToolCL_Vec2 toolcl_vec2_add(ToolCL_Vec2 a, ToolCL_Vec2 b);
+ToolCL_Vec2 toolcl_vec2_sub(ToolCL_Vec2 a, ToolCL_Vec2 b);
+ToolCL_Vec2 toolcl_vec2_mul(ToolCL_Vec2 v, float scalar);
 
-float cl_vec2_length(CLVec2 v);
+float toolcl_vec2_length(ToolCL_Vec2 v);
 
 #endif

@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <toolcl/vec2.h>
 
-int main() {
-    CLVec2 a = cl_vec2(2, 3);
-    CLVec2 b = cl_vec2(4, 1);
+int main(void)
+{
+    ToolCL_Vec2 a = toolcl_vec2(2.0f, 3.0f);
+    ToolCL_Vec2 b = toolcl_vec2(4.0f, 1.0f);
 
-    CLVec2 c = cl_vec2_add(a, b);
+    ToolCL_Vec2 c = toolcl_vec2_add(a, b);
 
     printf("Vec2 result: (%f, %f)\n", c.x, c.y);
 

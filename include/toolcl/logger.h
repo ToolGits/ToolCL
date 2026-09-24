@@ -11,6 +11,8 @@ typedef enum
 
 void toolcl_log(const char *message);
 
+void toolcl_log_level(ToolCL_LogLevel level, const char *message);
+
 void toolcl_log_debug(const char *message);
 void toolcl_log_info(const char *message);
 void toolcl_log_warn(const char *message);

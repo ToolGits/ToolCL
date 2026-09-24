@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include <toolcl/hello_world.h>
 
 static void clear_input(void)
 {
