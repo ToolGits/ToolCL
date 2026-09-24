@@ -65,6 +65,7 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
 
     find_package(OpenGL REQUIRED)
     find_package(glfw3 CONFIG REQUIRED)
+    find_package(GLEW REQUIRED)
 
     add_executable(hello_3d_lighting_vsync examples/hello_3d_lighting_vsync.c)
 
@@ -99,6 +100,7 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
         toolcl
         OpenGL::GL
         glfw
+        GLEW::GLEW
     )
 
 endif()
