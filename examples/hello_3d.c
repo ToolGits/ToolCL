@@ -140,7 +140,6 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
 
     glfwSetFramebufferSizeCallback(
         window,

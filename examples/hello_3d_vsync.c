@@ -143,7 +143,6 @@ int main(void)
 
 /* Enable vertical synchronization. */
 glfwSwapInterval(1);
-    glfwSwapInterval(1);
 
     glfwSetFramebufferSizeCallback(
         window,
