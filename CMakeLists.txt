@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ToolCL VERSION 0.3.0 LANGUAGES C)
+project(ToolCL VERSION 0.4.0 LANGUAGES C)
 
 message(STATUS "Configuring ToolCL ${PROJECT_VERSION}")
 
