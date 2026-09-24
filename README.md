@@ -12,22 +12,40 @@
 > [!IMPORTANT]
 > **ToolCL 0.3.0 is the current stable version.**
 
+---
+
 ## 🚀 About
 
-**ToolCL** is a lightweight framework written in **C**, focused on providing simple and reusable components for application development.
+**ToolCL** is a lightweight and modular framework written in **C99**.
 
-The project is designed to remain small, portable, modular, and easy to understand.
+It provides a collection of small, reusable components intended to make common tasks easier without introducing unnecessary complexity.
+
+The project prioritizes:
+
+- Simple APIs
+- Small and understandable components
+- Portability
+- Modular development
+- Minimal dependencies
+- Easy maintenance
+
+ToolCL is designed to be a **framework that stays lightweight** instead of growing into an unnecessarily complex ecosystem.
+
+---
 
 ## ✨ Features
 
 - ⚡ Lightweight architecture
-- 🧩 Modular structure
-- 🔧 Written in pure C
-- 📐 C99 standard
-- 🌍 Cross-platform design
-- 📦 Minimal dependencies
-- 📚 Reusable components
+- 🧩 Modular components
+- 🔧 Written in C99
 - 🏗️ Static library support
+- 🔨 CMake build system
+- 📦 Minimal external dependencies
+- 🌍 Portability-oriented design
+- 📚 Reusable APIs
+- 🧪 Practical examples and experiments
+
+---
 
 ## 💡 Philosophy
 
@@ -35,51 +53,155 @@ ToolCL follows a simple principle:
 
 > **Keep it small, keep it portable, keep it simple.**
 
-The goal is to provide useful building blocks without unnecessary complexity.
+The project intentionally avoids unnecessary abstraction and complexity.
 
-## 🧩 Main Modules
+Each component should have a clear purpose, a small API, and remain easy to understand.
 
-- Logger
-- Math utilities
-- Vec2
-- String
+ToolCL is not intended to provide everything at once. Its goal is to provide **useful foundations that remain simple to work with**.
 
-> [!NOTE]
-> New modules may be introduced in future versions.
+---
+
+## 🧩 Modules
+
+### Logger
+
+Lightweight logging utilities for applications and experiments.
+
+Provides:
+
+- Debug logging
+- Informational logging
+- Warning logging
+- Error logging
+- Configurable log levels
+
+### Math
+
+Basic mathematical utilities for common operations.
+
+Includes:
+
+- Addition
+- Subtraction
+- Multiplication
+- Division
+
+Division by zero is handled deterministically by returning `0.0f`.
+
+### Vec2
+
+A small 2D vector module.
+
+Provides:
+
+- Vector creation
+- Vector addition
+- Vector subtraction
+- Scalar multiplication
+- Vector length calculation
+
+### String
+
+Basic utilities for working with C strings.
+
+Provides:
+
+- String length
+- String comparison
+
+The module also provides defined behavior for `NULL` inputs.
+
+---
 
 ## 🧪 Examples
 
-ToolCL currently includes:
+ToolCL includes several examples demonstrating its modules.
 
-- `hello_logger`
-- `hello_math`
-- `hello_vec2`
-- `hello_string`
-- `hello_world`
-- `hello_random`
+### Library examples
+
+- `hello_logger` — Logger demonstration
+- `hello_math` — Math utilities demonstration
+- `hello_vec2` — 2D vector demonstration
+- `hello_string` — String utilities demonstration
+
+### Experimental examples
+
+- `hello_world` — Interactive experiment focused on input and interaction
+- `hello_random` — Experiment focused on randomness
+
+The experimental examples are intentionally kept as small practical programs for testing concepts and experimenting with ToolCL.
+
+---
 
 ## 🔧 Build System
 
 ToolCL uses **CMake** as its official build system.
 
+### Requirements
+
+- A C99-compatible C compiler
+- CMake 3.10 or newer
+
 ### Build
 
+From the project root:
+
 ```bash
-mkdir build
-cd build
-cmake ..
-cmake --build .
+cmake -S . -B build
+cmake --build build
 ```
 
-### Disable Examples
+The generated files are kept inside the `build/` directory.
+
+The static library is generated as:
+
+```text
+build/lib/libtoolcl.a
+```
+
+Example executables are generated inside:
+
+```text
+build/bin/
+```
+
+### Build without examples
+
+If you only need the ToolCL library:
 
 ```bash
-cmake -DTOOLCL_BUILD_EXAMPLES=OFF ..
-cmake --build .
+cmake -S . -B build -DTOOLCL_BUILD_EXAMPLES=OFF
+cmake --build build
 ```
 
 > [!TIP]
-> Disabling examples can be useful when ToolCL is being built only as a library.
+> Disabling examples is useful when ToolCL is being integrated as a library into another project.
+
+---
+
+## 📦 Basic Usage
+
+After building ToolCL, applications can include its public headers through the `toolcl/` include path.
+
+For example:
+
+```c
+#include <toolcl/math.h>
+#include <stdio.h>
+
+int main(void)
+{
+    float result = toolcl_addf(10.0f, 5.0f);
+
+    printf("Result: %.2f\n", result);
+
+    return 0;
+}
+```
+
+The exact API may grow as new ToolCL versions are released, while keeping the project focused on small and understandable interfaces.
+
+---
 
 ## 📁 Project Structure
 
@@ -87,26 +209,57 @@ cmake --build .
 ToolCL/
 ├── include/
 │   └── toolcl/
+│       ├── logger.h
+│       ├── math.h
+│       ├── string.h
+│       └── vec2.h
 ├── src/
+│   ├── logger.c
+│   ├── math.c
+│   ├── string.c
+│   └── vec2.c
 ├── examples/
+│   ├── hello_logger.c
+│   ├── hello_math.c
+│   ├── hello_random.c
+│   ├── hello_string.c
+│   ├── hello_vec2.c
+│   └── hello_world.c
 ├── CMakeLists.txt
 ├── README.md
 └── LICENSE
 ```
 
+---
+
 ## 🌍 Platforms
 
+ToolCL follows a portability-oriented design.
+
+### Current
+
 - 🐧 Linux
-- 🪟 Windows — Coming Soon
-- 🌎 Other platforms — depending on the environment
+
+### Planned / Improving
+
+- 🪟 Windows
+- 🌎 Other compatible platforms
+
+Platform-specific dependencies are intentionally kept to a minimum whenever possible.
+
+---
 
 ## 🏢 ToolGits
 
 ToolCL is maintained by the **ToolGits** organization.
 
+ToolCL is an independent project within the ToolGits family, with its own architecture, goals, and development direction.
+
 - Organization: https://github.com/ToolGits
 - Creator: https://github.com/enzobobdevvideos04-ctrl
 - Discord: https://discord.gg/NJY5BaxMZq
+
+---
 
 ## 📜 License
 
