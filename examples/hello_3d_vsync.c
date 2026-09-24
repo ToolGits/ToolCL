@@ -1,4 +1,3 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -141,8 +140,8 @@ int main(void)
 
     glfwMakeContextCurrent(window);
 
-/* Enable vertical synchronization. */
-glfwSwapInterval(1);
+    /* Enable vertical synchronization. */
+    glfwSwapInterval(1);
 
     glfwSetFramebufferSizeCallback(
         window,

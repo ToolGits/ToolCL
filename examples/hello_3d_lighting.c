@@ -1,6 +1,5 @@
 #include <GL/glew.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
 #include <GLFW/glfw3.h>
@@ -75,8 +74,11 @@ static GLuint create_shader_program(void)
     GLuint fragment_shader =
         compile_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
 
-    if (!vertex_shader || !fragment_shader)
+    if (!vertex_shader || !fragment_shader) {
+        glDeleteShader(vertex_shader);
+        glDeleteShader(fragment_shader);
         return 0;
+    }
 
     GLuint program = glCreateProgram();
 
@@ -298,7 +300,7 @@ int main(void)
 
         ToolCL_Mat4 projection =
             toolcl_mat4_perspective(
-                45.0f * (float)M_PI / 180.0f,
+                45.0f * 3.14159265358979323846f / 180.0f,
                 (float)width / (float)height,
                 0.1f,
                 100.0f
