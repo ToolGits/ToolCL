@@ -117,7 +117,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow *window =
-        glfwCreateWindow(800, 600, "ToolCL - Hello 3D Lighting", NULL, NULL);
+        glfwCreateWindow(800, 600, "ToolCL - Hello 3D Lighting VSync", NULL, NULL);
 
     if (!window) {
         fprintf(stderr, "Failed to create GLFW window.\n");
