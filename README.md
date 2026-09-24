@@ -53,11 +53,15 @@ ToolCL follows a simple principle:
 
 > **Keep it small, keep it portable, keep it simple.**
 
-The project intentionally avoids unnecessary abstraction and complexity.
+The project focuses on keeping its APIs and internal structure simple, understandable, and maintainable.
 
-Each component should have a clear purpose, a small API, and remain easy to understand.
+ToolCL also values **compatibility and backwards compatibility**.
 
-ToolCL is not intended to provide everything at once. Its goal is to provide **useful foundations that remain simple to work with**.
+Whenever practical, existing APIs and behavior are preserved so that projects can continue using previous versions of the framework while newer functionality is introduced.
+
+However, backwards compatibility is not guaranteed in every situation. Breaking changes may occasionally be necessary as ToolCL evolves.
+
+The goal is to balance **simplicity, portability, compatibility, and continuous development**.
 
 ---
 
