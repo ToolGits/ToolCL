@@ -74,6 +74,7 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
         toolcl
         OpenGL::GL
         glfw
+        GLEW::GLEW
     )
 
     add_executable(hello_3d_lighting examples/hello_3d_lighting.c)
@@ -83,6 +84,7 @@ if(TOOLCL_BUILD_3D_EXAMPLE)
         toolcl
         OpenGL::GL
         glfw
+        GLEW::GLEW
     )
 
     add_executable(hello_3d examples/hello_3d.c)
