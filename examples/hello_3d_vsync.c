@@ -131,7 +131,7 @@ int main(void)
 #endif
 
     GLFWwindow *window =
-        glfwCreateWindow(800, 600, "ToolCL - Hello 3D", NULL, NULL);
+        glfwCreateWindow(800, 600, "ToolCL - Hello 3D VSync", NULL, NULL);
 
     if (!window) {
         fprintf(stderr, "Failed to create OpenGL window.\n");
