@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <toolcl/vec3.h>
