@@ -5,24 +5,36 @@
 #include <GLFW/glfw3.h>
 
 #include <toolcl/mat4.h>
+#include <toolcl/vec3.h>
 
 static const char *vertex_shader_source =
     "#version 330 core\n"
     "layout (location = 0) in vec3 a_position;\n"
     "layout (location = 1) in vec3 a_color;\n"
+    "layout (location = 2) in vec3 a_normal;\n"
     "uniform mat4 u_mvp;\n"
+    "uniform mat4 u_model;\n"
+    "uniform vec3 u_light_direction;\n"
     "out vec3 v_color;\n"
+    "out vec3 v_normal;\n"
     "void main() {\n"
     "    gl_Position = u_mvp * vec4(a_position, 1.0);\n"
     "    v_color = a_color;\n"
+    "    v_normal = mat3(u_model) * a_normal;\n"
     "}\n";
 
 static const char *fragment_shader_source =
     "#version 330 core\n"
     "in vec3 v_color;\n"
+    "in vec3 v_normal;\n"
+    "uniform vec3 u_light_direction;\n"
     "out vec4 frag_color;\n"
     "void main() {\n"
-    "    frag_color = vec4(v_color, 1.0);\n"
+    "    vec3 normal = normalize(v_normal);\n"
+    "    vec3 light = normalize(-u_light_direction);\n"
+    "    float diffuse = max(dot(normal, light), 0.0);\n"
+    "    float lighting = 0.25 + diffuse * 0.75;\n"
+    "    frag_color = vec4(v_color * lighting, 1.0);\n"
     "}\n";
 
 static void print_shader_log(GLuint shader)
@@ -100,6 +112,46 @@ static GLuint create_program(void)
     return program;
 }
 
+static ToolCL_Mat4 make_look_at(
+    ToolCL_Vec3 eye,
+    ToolCL_Vec3 target,
+    ToolCL_Vec3 up
+)
+{
+    ToolCL_Vec3 forward =
+        toolcl_vec3_normalize(
+            toolcl_vec3_sub(target, eye)
+        );
+
+    ToolCL_Vec3 right =
+        toolcl_vec3_normalize(
+            toolcl_vec3_cross(forward, up)
+        );
+
+    ToolCL_Vec3 corrected_up =
+        toolcl_vec3_cross(right, forward);
+
+    ToolCL_Mat4 view = toolcl_mat4_identity();
+
+    view.data[0] = right.x;
+    view.data[1] = right.y;
+    view.data[2] = right.z;
+
+    view.data[4] = corrected_up.x;
+    view.data[5] = corrected_up.y;
+    view.data[6] = corrected_up.z;
+
+    view.data[8] = -forward.x;
+    view.data[9] = -forward.y;
+    view.data[10] = -forward.z;
+
+    view.data[12] = -toolcl_vec3_dot(right, eye);
+    view.data[13] = -toolcl_vec3_dot(corrected_up, eye);
+    view.data[14] = toolcl_vec3_dot(forward, eye);
+
+    return view;
+}
+
 static void framebuffer_size_callback(
     GLFWwindow *window,
     int width,
@@ -139,8 +191,6 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-
-    /* Enable vertical synchronization. */
     glfwSwapInterval(1);
 
     glfwSetFramebufferSizeCallback(
@@ -151,59 +201,47 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
 
     static const float cube_vertices[] = {
-        /* Front */
-        -0.5f,-0.5f, 0.5f, 1,0,0,
-         0.5f,-0.5f, 0.5f, 0,1,0,
-         0.5f, 0.5f, 0.5f, 0,0,1,
+        -0.5f,-0.5f, 0.5f, 1,0,0, 0,0,1,
+         0.5f,-0.5f, 0.5f, 0,1,0, 0,0,1,
+         0.5f, 0.5f, 0.5f, 0,0,1, 0,0,1,
+         0.5f, 0.5f, 0.5f, 0,0,1, 0,0,1,
+        -0.5f, 0.5f, 0.5f, 1,1,0, 0,0,1,
+        -0.5f,-0.5f, 0.5f, 1,0,0, 0,0,1,
 
-         0.5f, 0.5f, 0.5f, 0,0,1,
-        -0.5f, 0.5f, 0.5f, 1,1,0,
-        -0.5f,-0.5f, 0.5f, 1,0,0,
+         0.5f,-0.5f,-0.5f, 0,1,1, 0,0,-1,
+        -0.5f,-0.5f,-0.5f, 1,0,1, 0,0,-1,
+        -0.5f, 0.5f,-0.5f, 1,1,1, 0,0,-1,
+        -0.5f, 0.5f,-0.5f, 1,1,1, 0,0,-1,
+         0.5f, 0.5f,-0.5f, .5,.5,.5, 0,0,-1,
+         0.5f,-0.5f,-0.5f, 0,1,1, 0,0,-1,
 
-        /* Back */
-         0.5f,-0.5f,-0.5f, 0,1,1,
-        -0.5f,-0.5f,-0.5f, 1,0,1,
-        -0.5f, 0.5f,-0.5f, 1,1,1,
+        -0.5f,-0.5f,-0.5f, 1,0,1, -1,0,0,
+        -0.5f,-0.5f, 0.5f, 1,0,0, -1,0,0,
+        -0.5f, 0.5f, 0.5f, 0,1,0, -1,0,0,
+        -0.5f, 0.5f, 0.5f, 0,1,0, -1,0,0,
+        -0.5f, 0.5f,-0.5f, 1,1,1, -1,0,0,
+        -0.5f,-0.5f,-0.5f, 1,0,1, -1,0,0,
 
-        -0.5f, 0.5f,-0.5f, 1,1,1,
-         0.5f, 0.5f,-0.5f, .5,.5,.5,
-         0.5f,-0.5f,-0.5f, 0,1,1,
+         0.5f,-0.5f, 0.5f, 0,1,0, 1,0,0,
+         0.5f,-0.5f,-0.5f, 0,1,1, 1,0,0,
+         0.5f, 0.5f,-0.5f, .5,.5,.5, 1,0,0,
+         0.5f, 0.5f,-0.5f, .5,.5,.5, 1,0,0,
+         0.5f, 0.5f, 0.5f, 0,0,1, 1,0,0,
+         0.5f,-0.5f, 0.5f, 0,1,0, 1,0,0,
 
-        /* Left */
-        -0.5f,-0.5f,-0.5f, 1,0,1,
-        -0.5f,-0.5f, 0.5f, 1,0,0,
-        -0.5f, 0.5f, 0.5f, 0,1,0,
+        -0.5f, 0.5f, 0.5f, 0,1,0, 0,1,0,
+         0.5f, 0.5f, 0.5f, 0,0,1, 0,1,0,
+         0.5f, 0.5f,-0.5f, .5,.5,.5, 0,1,0,
+         0.5f, 0.5f,-0.5f, .5,.5,.5, 0,1,0,
+        -0.5f, 0.5f,-0.5f, 1,1,1, 0,1,0,
+        -0.5f, 0.5f, 0.5f, 0,1,0, 0,1,0,
 
-        -0.5f, 0.5f, 0.5f, 0,1,0,
-        -0.5f, 0.5f,-0.5f, 1,1,1,
-        -0.5f,-0.5f,-0.5f, 1,0,1,
-
-        /* Right */
-         0.5f,-0.5f, 0.5f, 0,1,0,
-         0.5f,-0.5f,-0.5f, 0,1,1,
-         0.5f, 0.5f,-0.5f, .5,.5,.5,
-
-         0.5f, 0.5f,-0.5f, .5,.5,.5,
-         0.5f, 0.5f, 0.5f, 0,0,1,
-         0.5f,-0.5f, 0.5f, 0,1,0,
-
-        /* Top */
-        -0.5f, 0.5f, 0.5f, 0,1,0,
-         0.5f, 0.5f, 0.5f, 0,0,1,
-         0.5f, 0.5f,-0.5f, .5,.5,.5,
-
-         0.5f, 0.5f,-0.5f, .5,.5,.5,
-        -0.5f, 0.5f,-0.5f, 1,1,1,
-        -0.5f, 0.5f, 0.5f, 0,1,0,
-
-        /* Bottom */
-        -0.5f,-0.5f,-0.5f, 1,0,1,
-         0.5f,-0.5f,-0.5f, 0,1,1,
-         0.5f,-0.5f, 0.5f, 0,1,0,
-
-         0.5f,-0.5f, 0.5f, 0,1,0,
-        -0.5f,-0.5f, 0.5f, 1,0,0,
-        -0.5f,-0.5f,-0.5f, 1,0,1
+        -0.5f,-0.5f,-0.5f, 1,0,1, 0,-1,0,
+         0.5f,-0.5f,-0.5f, 0,1,1, 0,-1,0,
+         0.5f,-0.5f, 0.5f, 0,1,0, 0,-1,0,
+         0.5f,-0.5f, 0.5f, 0,1,0, 0,-1,0,
+        -0.5f,-0.5f, 0.5f, 1,0,0, 0,-1,0,
+        -0.5f,-0.5f,-0.5f, 1,0,1, 0,-1,0
     };
 
     GLuint vao = 0;
@@ -224,17 +262,24 @@ int main(void)
 
     glVertexAttribPointer(
         0, 3, GL_FLOAT, GL_FALSE,
-        6 * sizeof(float),
+        9 * sizeof(float),
         (void *)0
     );
     glEnableVertexAttribArray(0);
 
     glVertexAttribPointer(
         1, 3, GL_FLOAT, GL_FALSE,
-        6 * sizeof(float),
+        9 * sizeof(float),
         (void *)(3 * sizeof(float))
     );
     glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(
+        2, 3, GL_FLOAT, GL_FALSE,
+        9 * sizeof(float),
+        (void *)(6 * sizeof(float))
+    );
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -252,6 +297,15 @@ int main(void)
     GLint mvp_location =
         glGetUniformLocation(program, "u_mvp");
 
+    GLint model_location =
+        glGetUniformLocation(program, "u_model");
+
+    GLint light_direction_location =
+        glGetUniformLocation(program, "u_light_direction");
+
+    ToolCL_Vec3 light_direction =
+        toolcl_vec3(-0.6f, -1.0f, -0.8f);
+
     while (!glfwWindowShouldClose(window)) {
         int width;
         int height;
@@ -267,38 +321,45 @@ int main(void)
         float time =
             (float)glfwGetTime();
 
-        ToolCL_Mat4 model =
+        ToolCL_Mat4 rotation =
             toolcl_mat4_mul(
                 toolcl_mat4_rotate_y(time),
                 toolcl_mat4_rotate_x(time * 0.7f)
             );
 
-        model =
+        rotation =
             toolcl_mat4_mul(
-                model,
+                rotation,
                 toolcl_mat4_rotate_z(time * 0.35f)
             );
 
+        ToolCL_Mat4 model =
+            toolcl_mat4_mul(
+                toolcl_mat4_translate(
+                    toolcl_vec3(0.0f, 0.0f, 0.0f)
+                ),
+                rotation
+            );
+
         ToolCL_Mat4 view =
-            toolcl_mat4_translate(
-                toolcl_vec3(0.0f, 0.0f, -2.5f)
+            make_look_at(
+                toolcl_vec3(0.0f, 1.35f, 3.4f),
+                toolcl_vec3(0.0f, 0.0f, 0.0f),
+                toolcl_vec3(0.0f, 1.0f, 0.0f)
             );
 
         ToolCL_Mat4 projection =
             toolcl_mat4_perspective(
-                1.0471975512f,
+                (45.0f * 3.14159265358979323846f / 180.0f),
                 aspect,
                 0.1f,
                 100.0f
             );
 
-        ToolCL_Mat4 view_model =
-            toolcl_mat4_mul(view, model);
-
         ToolCL_Mat4 mvp =
             toolcl_mat4_mul(
                 projection,
-                view_model
+                toolcl_mat4_mul(view, model)
             );
 
         glViewport(0, 0, width, height);
@@ -319,6 +380,20 @@ int main(void)
             1,
             GL_FALSE,
             mvp.data
+        );
+
+        glUniformMatrix4fv(
+            model_location,
+            1,
+            GL_FALSE,
+            model.data
+        );
+
+        glUniform3f(
+            light_direction_location,
+            light_direction.x,
+            light_direction.y,
+            light_direction.z
         );
 
         glBindVertexArray(vao);
