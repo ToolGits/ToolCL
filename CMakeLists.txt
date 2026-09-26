@@ -8,6 +8,8 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(TOOLCL_BUILD_EXAMPLES "Build ToolCL examples" ON)
+option(TOOLCL_BUILD_3D "Build ToolCL 3D examples" ON)
+option(TOOLCL_BUILD_TESTS "Build ToolCL tests" ON)
 option(TOOLCL_FETCH_3D_DEPS "Fetch GLFW and GLEW when unavailable" ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -122,7 +124,7 @@ if(TOOLCL_BUILD_3D)
 endif()
 
 
-if(BUILD_TESTING)
+if(TOOLCL_BUILD_TESTS)
     enable_testing()
 
     foreach(test
