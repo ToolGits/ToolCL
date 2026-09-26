@@ -35,94 +35,101 @@ if(UNIX)
     target_link_libraries(toolcl PUBLIC m)
 endif()
 
-if(TOOLCL_BUILD_3D)
-    find_package(OpenGL REQUIRED)
-    find_package(PkgConfig QUIET)
+if(TOOLCL_BUILD_EXAMPLES)
+    add_executable(hello_world examples/experimental/hello_world.c)
+    target_link_libraries(hello_world PRIVATE toolcl)
 
-    if(PkgConfig_FOUND)
-        pkg_check_modules(GLFW3 QUIET IMPORTED_TARGET glfw3)
-        pkg_check_modules(GLEW QUIET IMPORTED_TARGET glew)
-    endif()
+    add_executable(hello_random examples/experimental/hello_random.c)
+    target_link_libraries(hello_random PRIVATE toolcl)
 
-    if(TARGET PkgConfig::GLFW3)
-        set(TOOLCL_GLFW_TARGET PkgConfig::GLFW3)
-    elseif(TOOLCL_FETCH_3D_DEPS)
-        include(FetchContent)
+    if(TOOLCL_BUILD_3D)
+        find_package(OpenGL REQUIRED)
+        find_package(PkgConfig QUIET)
 
-        FetchContent_Declare(
-            glfw
-            GIT_REPOSITORY https://github.com/glfw/glfw.git
-            GIT_TAG 3.4
-        )
-
-        set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-        set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-        set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-
-        FetchContent_MakeAvailable(glfw)
-
-        set(TOOLCL_GLFW_TARGET glfw)
-    else()
-        message(FATAL_ERROR "GLFW3 not found")
-    endif()
-
-    if(TARGET PkgConfig::GLEW)
-        set(TOOLCL_GLEW_TARGET PkgConfig::GLEW)
-    elseif(TOOLCL_FETCH_3D_DEPS)
-        include(FetchContent)
-
-        FetchContent_Declare(
-            glew
-            GIT_REPOSITORY https://github.com/nigels-com/glew.git
-            GIT_TAG glew-2.2.0
-            SOURCE_SUBDIR build/cmake
-        )
-
-        set(BUILD_UTILS OFF CACHE BOOL "" FORCE)
-        set(BUILD_FRAMEWORK OFF CACHE BOOL "" FORCE)
-
-        FetchContent_MakeAvailable(glew)
-
-        if(TARGET glew_s)
-            set(TOOLCL_GLEW_TARGET glew_s)
-        elseif(TARGET glew)
-            set(TOOLCL_GLEW_TARGET glew)
-        else()
-            message(FATAL_ERROR "GLEW target was not created")
+        if(PkgConfig_FOUND)
+            pkg_check_modules(GLFW3 QUIET IMPORTED_TARGET glfw3)
+            pkg_check_modules(GLEW QUIET IMPORTED_TARGET glew)
         endif()
-    else()
-        message(FATAL_ERROR "GLEW not found")
+
+        if(TARGET PkgConfig::GLFW3)
+            set(TOOLCL_GLFW_TARGET PkgConfig::GLFW3)
+        elseif(TOOLCL_FETCH_3D_DEPS)
+            include(FetchContent)
+
+            FetchContent_Declare(
+                glfw
+                GIT_REPOSITORY https://github.com/glfw/glfw.git
+                GIT_TAG 3.4
+            )
+
+            set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+            set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+            set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+            FetchContent_MakeAvailable(glfw)
+
+            set(TOOLCL_GLFW_TARGET glfw)
+        else()
+            message(FATAL_ERROR "GLFW3 not found")
+        endif()
+
+        if(TARGET PkgConfig::GLEW)
+            set(TOOLCL_GLEW_TARGET PkgConfig::GLEW)
+        elseif(TOOLCL_FETCH_3D_DEPS)
+            include(FetchContent)
+
+            FetchContent_Declare(
+                glew
+                GIT_REPOSITORY https://github.com/nigels-com/glew.git
+                GIT_TAG glew-2.2.0
+                SOURCE_SUBDIR build/cmake
+            )
+
+            set(BUILD_UTILS OFF CACHE BOOL "" FORCE)
+            set(BUILD_FRAMEWORK OFF CACHE BOOL "" FORCE)
+
+            FetchContent_MakeAvailable(glew)
+
+            if(TARGET glew_s)
+                set(TOOLCL_GLEW_TARGET glew_s)
+            elseif(TARGET glew)
+                set(TOOLCL_GLEW_TARGET glew)
+            else()
+                message(FATAL_ERROR "GLEW target was not created")
+            endif()
+        else()
+            message(FATAL_ERROR "GLEW not found")
+        endif()
+
+        foreach(example
+            hello_3d
+            hello_3d_vsync
+            hello_3d_lighting
+            hello_3d_lighting_vsync
+        )
+            add_executable(
+                ${example}
+                examples/3d/${example}.c
+                examples/3d/hello_3d_common.c
+            )
+
+            target_include_directories(
+                ${example}
+                PRIVATE
+                ${CMAKE_CURRENT_SOURCE_DIR}/examples/3d
+            )
+
+            target_link_libraries(
+                ${example}
+                PRIVATE
+                toolcl
+                ${TOOLCL_GLFW_TARGET}
+                ${TOOLCL_GLEW_TARGET}
+                OpenGL::GL
+            )
+        endforeach()
     endif()
-
-    foreach(example
-        hello_3d
-        hello_3d_vsync
-        hello_3d_lighting
-        hello_3d_lighting_vsync
-    )
-        add_executable(
-            ${example}
-            examples/3d/${example}.c
-            examples/3d/hello_3d_common.c
-        )
-
-        target_include_directories(
-            ${example}
-            PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/examples/3d
-        )
-
-        target_link_libraries(
-            ${example}
-            PRIVATE
-            toolcl
-            ${TOOLCL_GLFW_TARGET}
-            ${TOOLCL_GLEW_TARGET}
-            OpenGL::GL
-        )
-    endforeach()
 endif()
-
 
 if(TOOLCL_BUILD_TESTS)
     enable_testing()
