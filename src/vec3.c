@@ -3,7 +3,7 @@
 
 ToolCL_Vec3 toolcl_vec3(float x, float y, float z)
 {
-    ToolCL_Vec3 v = {x, y, z};
+    ToolCL_Vec3 v = { x, y, z };
     return v;
 }
 
@@ -35,16 +35,6 @@ float toolcl_vec3_length(ToolCL_Vec3 v)
     );
 }
 
-ToolCL_Vec3 toolcl_vec3_normalize(ToolCL_Vec3 v)
-{
-    float length = toolcl_vec3_length(v);
-
-    if (length == 0.0f)
-        return toolcl_vec3(0.0f, 0.0f, 0.0f);
-
-    return toolcl_vec3_mul(v, 1.0f / length);
-}
-
 float toolcl_vec3_dot(ToolCL_Vec3 a, ToolCL_Vec3 b)
 {
     return
@@ -53,11 +43,30 @@ float toolcl_vec3_dot(ToolCL_Vec3 a, ToolCL_Vec3 b)
         a.z * b.z;
 }
 
+float toolcl_vec3_distance(ToolCL_Vec3 a, ToolCL_Vec3 b)
+{
+    return toolcl_vec3_length(toolcl_vec3_sub(a, b));
+}
+
 ToolCL_Vec3 toolcl_vec3_cross(ToolCL_Vec3 a, ToolCL_Vec3 b)
 {
     return toolcl_vec3(
         a.y * b.z - a.z * b.y,
         a.z * b.x - a.x * b.z,
         a.x * b.y - a.y * b.x
+    );
+}
+
+ToolCL_Vec3 toolcl_vec3_normalize(ToolCL_Vec3 v)
+{
+    float length = toolcl_vec3_length(v);
+
+    if (length == 0.0f)
+        return toolcl_vec3(0.0f, 0.0f, 0.0f);
+
+    return toolcl_vec3(
+        v.x / length,
+        v.y / length,
+        v.z / length
     );
 }

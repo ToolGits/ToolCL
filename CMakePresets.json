@@ -1,0 +1,75 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TOOLCL_BUILD_TESTS": "ON",
+        "TOOLCL_BUILD_EXAMPLES": "ON",
+        "TOOLCL_BUILD_3D": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TOOLCL_BUILD_TESTS": "ON",
+        "TOOLCL_BUILD_EXAMPLES": "ON",
+        "TOOLCL_BUILD_3D": "OFF"
+      }
+    },
+    {
+      "name": "3d",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/3d",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TOOLCL_BUILD_TESTS": "ON",
+        "TOOLCL_BUILD_EXAMPLES": "ON",
+        "TOOLCL_BUILD_3D": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "3d",
+      "configurePreset": "3d"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "3d",
+      "configurePreset": "3d",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

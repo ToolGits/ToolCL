@@ -9,8 +9,10 @@ typedef enum
     TOOLCL_ERROR
 } ToolCL_LogLevel;
 
-void toolcl_log(const char *message);
+void toolcl_set_log_level(ToolCL_LogLevel level);
+ToolCL_LogLevel toolcl_get_log_level(void);
 
+void toolcl_log(const char *message);
 void toolcl_log_level(ToolCL_LogLevel level, const char *message);
 
 void toolcl_log_debug(const char *message);

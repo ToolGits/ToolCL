@@ -1,7 +1,7 @@
 # ToolCL ⚙️
 
 [![Status](https://img.shields.io/badge/status-Stable-brightgreen)](https://github.com/ToolGits/ToolCL)
-[![Version](https://img.shields.io/badge/version-0.4.0-blue)](https://github.com/ToolGits/ToolCL)
+[![Version](https://img.shields.io/badge/version-0.4.5-blue)](https://github.com/ToolGits/ToolCL)
 [![Language](https://img.shields.io/badge/language-C-blue)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Standard](https://img.shields.io/badge/standard-C99-orange)](https://en.wikipedia.org/wiki/C99)
 [![Build](https://img.shields.io/badge/build-CMake-064F8C)](https://cmake.org/)
@@ -10,7 +10,7 @@
 > A lightweight C framework focused on simplicity, portability, and modular development.
 
 > [!IMPORTANT]
-> **ToolCL 0.4.0 is the current stable version.**
+> **ToolCL 0.4.5 is the current stable version.**
 
 ---
 
@@ -223,7 +223,7 @@ The module also provides defined behavior for `NULL` inputs.
 
 ## 🎮 3D Graphics
 
-ToolCL 0.4.0 introduces a small 3D foundation through **Vec3** and **Mat4**.
+ToolCL 0.4.5 introduces a small 3D foundation through **Vec3** and **Mat4**.
 
 The 3D examples demonstrate how ToolCL's mathematical modules can be combined with **OpenGL 3.3 Core**.
 

@@ -1,0 +1,40 @@
+name: ToolCL CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler:
+          - gcc
+          - clang
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: Configure
+        env:
+          CC: ${{ matrix.compiler }}
+        run: |
+          cmake -S . -B build/ci \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DTOOLCL_BUILD_TESTS=ON \
+            -DTOOLCL_BUILD_EXAMPLES=ON \
+            -DTOOLCL_BUILD_3D=OFF
+
+      - name: Build
+        run: cmake --build build/ci
+
+      - name: Test
+        run: ctest --test-dir build/ci --output-on-failure
