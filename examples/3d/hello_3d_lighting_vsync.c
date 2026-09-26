@@ -505,7 +505,7 @@ int main(void)
         model =
             toolcl_mat4_mul(
                 toolcl_mat4_translate(
-                    toolcl_vec3(0.0f, 0.5f, 0.0f)
+                    toolcl_vec3(0.0f, 0.9f, 0.0f)
                 ),
                 rotation
             );
