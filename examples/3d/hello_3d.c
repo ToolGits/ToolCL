@@ -279,7 +279,7 @@ int main(void)
 
         ToolCL_Mat4 view =
             toolcl_mat4_translate(
-                0.0f, 0.0f, -2.5f
+                toolcl_vec3(0.0f, 0.0f, -2.5f)
             );
 
         ToolCL_Mat4 projection =
@@ -316,7 +316,7 @@ int main(void)
             mvp_location,
             1,
             GL_FALSE,
-            mvp.m
+            mvp.data
         );
 
         glBindVertexArray(vao);

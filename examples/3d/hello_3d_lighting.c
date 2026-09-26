@@ -295,7 +295,7 @@ int main(void)
             );
 
         ToolCL_Mat4 view =
-            toolcl_mat4_translate(0.0f, 0.0f, -2.5f);
+            toolcl_mat4_translate(toolcl_vec3(0.0f, 0.0f, -2.5f));
 
         ToolCL_Mat4 projection =
             toolcl_mat4_perspective(
@@ -325,14 +325,14 @@ int main(void)
             mvp_location,
             1,
             GL_FALSE,
-            mvp.m
+            mvp.data
         );
 
         glUniformMatrix4fv(
             model_location,
             1,
             GL_FALSE,
-            model.m
+            model.data
         );
 
         glUniform3f(
