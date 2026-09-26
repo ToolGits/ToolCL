@@ -119,7 +119,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow *window =
-        glfwCreateWindow(800, 600, "ToolCL - Hello 3D Lighting VSync", NULL, NULL);
+        glfwCreateWindow(800, 600, "ToolCL - Hello 3D Lighting", NULL, NULL);
 
     if (!window) {
         fprintf(stderr, "Failed to create GLFW window.\n");
@@ -139,9 +139,8 @@ int main(void)
     }
 
     /*
-     * Lighting variant with VSync enabled.
+     * Lighting variant intentionally leaves VSync disabled.
      */
-    /* Enable vertical synchronization. */
     glfwSwapInterval(1);
 
     glEnable(GL_DEPTH_TEST);
