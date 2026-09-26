@@ -33,7 +33,7 @@ static const char *fragment_shader_source =
     "    vec3 normal = normalize(v_normal);\n"
     "    vec3 light = normalize(-u_light_direction);\n"
     "    float diffuse = max(dot(normal, light), 0.0);\n"
-    "    float lighting = 0.25 + diffuse * 0.75;\n"
+    "    float lighting = 0.40 + diffuse * 0.60;\n"
     "    frag_color = vec4(v_color * lighting, 1.0);\n"
     "}\n";
 
