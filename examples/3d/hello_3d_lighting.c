@@ -511,8 +511,10 @@ int main(void)
             );
 
         view =
-            toolcl_mat4_translate(
-                toolcl_vec3(0.0f, -0.25f, -3.2f)
+            make_look_at(
+                toolcl_vec3(0.0f, 1.7f, 3.8f),
+                toolcl_vec3(0.0f, 0.45f, 0.0f),
+                toolcl_vec3(0.0f, 1.0f, 0.0f)
             );
 
         projection =
