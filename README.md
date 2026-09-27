@@ -1,21 +1,30 @@
-# ToolCL
-
 <div align="center">
 
-**Keep it small. Keep it portable. Keep it simple.**
+# ToolCL
 
-A lightweight and modular **C99 framework** for building practical C applications.
+### Keep it small. Keep it portable. Keep it simple.
 
-[![Version](https://img.shields.io/badge/version-v0.4.5-blue.svg)](https://github.com/ToolGits/ToolCL/releases)
-[![Language](https://img.shields.io/badge/language-C99-blue.svg)](https://en.wikipedia.org/wiki/C99)
-[![Build](https://img.shields.io/badge/build-CMake-green.svg)](https://cmake.org/)
-[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+A lightweight, modular and portable **C99 framework** for building practical C applications without unnecessary complexity.
+
+[![Version](https://img.shields.io/badge/version-0.4.5-blue)](https://github.com/ToolGits/ToolCL)
+[![Language](https://img.shields.io/badge/language-C99-blue)](https://en.wikipedia.org/wiki/C99)
+[![Build](https://img.shields.io/badge/build-CMake-orange)](https://cmake.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 </div>
 
+> [!NOTE]
+> ToolCL is a **framework**, not a general-purpose collection of everything a C application might need. Its goal is to provide a small and coherent foundation that can grow without becoming unnecessarily complicated.
+
+> [!TIP]
+> The core framework does not require graphics libraries. OpenGL, GLFW and GLEW are only introduced when the optional 3D examples are enabled.
+
+> [!IMPORTANT]
+> ToolCL currently focuses primarily on Linux. Windows support is part of the portability direction and is still evolving.
+
 ---
 
-## Table of Contents
+# Table of Contents
 
 - [Overview](#overview)
 - [Why ToolCL?](#why-toolcl)
@@ -40,21 +49,64 @@ A lightweight and modular **C99 framework** for building practical C application
 
 # Overview
 
-ToolCL is a small, modular framework written in **C99**, designed to provide practical building blocks for C applications without forcing a large or complicated architecture.
+ToolCL is a small C99 framework designed around a simple idea:
 
-The framework currently provides:
+> **Provide useful foundations without turning the project into a massive dependency.**
 
-- Logging
-- Mathematical utilities
-- String utilities
-- 2D vectors
-- 3D vectors
-- 4×4 matrices
-- Optional OpenGL-based 3D examples
-- Automated tests
-- CMake-based builds and presets
+The framework currently focuses on core utilities, mathematics, vectors, matrices, logging and optional OpenGL-based 3D examples.
 
-The project is organized so that the core remains independent from the optional graphics layer.
+## Core Architecture
+
+| Area | Purpose |
+|---|---|
+| Logger | Lightweight application logging |
+| Math | Basic numerical utilities and common mathematical operations |
+| String | Small string-related helpers |
+| Vec2 | 2D vector operations |
+| Vec3 | 3D vector operations |
+| Mat4 | 4×4 matrix operations and transformations |
+| 3D Examples | Optional OpenGL demonstrations and rendering foundations |
+| Tests | Automated validation of the framework's core components |
+
+The core is intentionally independent from the optional graphics stack.
+
+<details>
+<summary><strong>Framework layout</strong></summary>
+
+```text
+ToolCL
+├── Core
+│   ├── Logger
+│   ├── Math
+│   ├── String
+│   ├── Vec2
+│   ├── Vec3
+│   └── Mat4
+│
+├── Examples
+│   ├── Experimental
+│   │   ├── hello_world
+│   │   └── hello_random
+│   │
+│   └── 3D
+│       ├── hello_3d
+│       ├── hello_3d_vsync
+│       ├── hello_3d_lighting
+│       └── hello_3d_lighting_vsync
+│
+├── Tests
+│   ├── test_logger
+│   ├── test_math
+│   ├── test_string
+│   ├── test_vec
+│   └── test_mat4
+│
+└── Build
+    ├── CMakeLists.txt
+    └── CMakePresets.json
+```
+
+</details>
 
 ---
 
@@ -68,7 +120,7 @@ ToolCL focuses on useful building blocks instead of trying to provide everything
 
 ### Portable by default
 
-Built around C99 and minimal dependencies, ToolCL is designed to keep applications portable across platforms.
+Built around **C99** and a small dependency footprint, ToolCL is designed to keep applications portable across different environments.
 
 ### Modular
 
@@ -76,11 +128,11 @@ Components such as logging, mathematics, strings, vectors and matrices are organ
 
 ### Optional 3D
 
-The core does not depend on graphics libraries. OpenGL, GLFW and GLEW are only introduced when the optional 3D examples are enabled.
+The core does not depend on graphics libraries. OpenGL-related dependencies are only required when the optional 3D examples are enabled.
 
 ### Tested
 
-ToolCL includes automated tests for its core components, helping catch regressions as the framework evolves.
+ToolCL includes automated tests for its core components, including mathematical edge cases, vector operations and matrix transformations.
 
 ### Built to stay simple
 
@@ -92,160 +144,460 @@ ToolCL follows a straightforward philosophy:
 
 # Features
 
-- **C99 framework**
-- Modular core components
-- Logging utilities
-- Mathematical helpers
-- Vec2 and Vec3 types
-- Mat4 transformations and perspective projection
-- Optional OpenGL 3D examples
-- VSync examples
-- Lighting examples
-- Automated CTest integration
-- CMake presets for common build configurations
-- Optional dependency fetching for 3D examples
+## Core
+
+- C99-based framework
+- Modular source organization
+- Lightweight logging
+- Mathematical utilities
+- 2D and 3D vector types
+- 4×4 matrix operations
+- String utilities
+- Static framework target
+- Minimal mandatory dependencies
+
+## Mathematics
+
+The math foundation includes:
+
+- Basic arithmetic
+- Safe floating-point division behavior
+- Absolute values
+- Minimum and maximum values
+- Clamping
+- Linear interpolation
+- Trigonometric helpers
+- Square-root handling
+- Degree/radian conversion
+- Vector length and distance calculations
+- Dot and cross products
+
+## Transformations
+
+`Mat4` provides the foundations required by the 3D examples:
+
+- Identity matrices
+- Zero matrices
+- Matrix multiplication
+- Translation
+- Scaling
+- X/Y/Z rotations
+- Perspective projection
+- 3D vector transformation
+
+## 3D
+
+The optional 3D layer demonstrates:
+
+- OpenGL rendering
+- GLFW window/context management
+- GLEW-based OpenGL loading
+- GLSL shaders
+- Perspective projection
+- Model/View/Projection transformations
+- VSync
+- Directional lighting
+- Specular lighting
+- Shadow mapping
+- PCF shadow filtering
+- Polygon offset for shadow-map stability
 
 ---
 
 # Architecture
 
-ToolCL separates its core components from optional graphics examples.
+ToolCL keeps its core independent from the graphics examples.
 
 ```mermaid
-graph TD
-    A[ToolCL] --> B[Core]
-    A --> C[Examples]
-    A --> D[Tests]
+flowchart TD
+    APP["C Application"]
 
-    B --> B1[Logger]
-    B --> B2[Math]
-    B --> B3[String]
-    B --> B4[Vec2]
-    B --> B5[Vec3]
-    B --> B6[Mat4]
+    TOOLCL["ToolCL Framework"]
 
-    C --> C1[Basic Examples]
-    C --> C2[Experimental Examples]
-    C --> C3[3D Examples]
+    LOGGER["Logger"]
+    MATH["Math"]
+    STRING["String"]
+    VEC2["Vec2"]
+    VEC3["Vec3"]
+    MAT4["Mat4"]
 
-    C3 --> G1[OpenGL]
-    C3 --> G2[GLFW]
-    C3 --> G3[GLEW]
+    EXAMPLES["Examples"]
 
-    D --> D1[test_logger]
-    D --> D2[test_math]
-    D --> D3[test_string]
-    D --> D4[test_vec]
-    D --> D5[test_mat4]
+    CORE3D["3D Examples"]
+    BASIC["Basic / Experimental Examples"]
+
+    GLFW["GLFW"]
+    GLEW["GLEW"]
+    OPENGL["OpenGL"]
+    GLSL["GLSL"]
+
+    APP --> TOOLCL
+
+    TOOLCL --> LOGGER
+    TOOLCL --> MATH
+    TOOLCL --> STRING
+    TOOLCL --> VEC2
+    TOOLCL --> VEC3
+    TOOLCL --> MAT4
+
+    TOOLCL --> EXAMPLES
+
+    EXAMPLES --> BASIC
+    EXAMPLES --> CORE3D
+
+    CORE3D --> GLFW
+    CORE3D --> GLEW
+    CORE3D --> OPENGL
+    CORE3D --> GLSL
 ```
 
-The core framework does not require OpenGL, GLFW or GLEW.
+The important separation is:
+
+```text
+ToolCL Core
+    │
+    ├── Logger
+    ├── Math
+    ├── String
+    ├── Vec2
+    ├── Vec3
+    └── Mat4
+
+Optional 3D Examples
+    │
+    ├── GLFW
+    ├── GLEW
+    ├── OpenGL
+    └── GLSL
+```
+
+This means applications using only the core do not need to bring the 3D stack with them.
 
 ---
 
 # Modules
 
-| Module | Purpose |
-|---|---|
-| `logger` | Logging and diagnostic messages |
-| `math` | Mathematical utilities and conversions |
-| `string` | String-related utilities |
-| `vec2` | 2D vector operations |
-| `vec3` | 3D vector operations |
-| `mat4` | 4×4 matrix operations and transformations |
+## Logger
 
-The modules are exposed through headers under:
+The logger provides lightweight diagnostic output for applications and examples.
 
-```text
-include/toolcl/
+Its purpose is to make framework and application behavior easier to inspect without introducing a large logging system.
+
+Typical use cases include:
+
+- Informational messages
+- Warnings
+- Errors
+- Debugging framework behavior
+- Example application output
+
+---
+
+## Math
+
+The math module provides small numerical helpers used throughout the framework.
+
+It covers:
+
+- Arithmetic operations
+- Absolute values
+- Minimum/maximum
+- Clamping
+- Linear interpolation
+- Trigonometric functions
+- Square roots
+- Degree/radian conversion
+
+The module also defines the framework's mathematical constant:
+
+```c
+TOOLCL_PI
 ```
+
+Edge cases such as division by zero, negative square roots and inverted clamp bounds are covered by the test suite.
+
+---
+
+## String
+
+The string module provides lightweight helpers for common string operations.
+
+The module is intended to cover common application needs without attempting to replace the C standard library.
+
+---
+
+## Vec2
+
+`ToolCL_Vec2` represents a two-dimensional vector.
+
+Supported operations include:
+
+- Construction
+- Addition
+- Subtraction
+- Scalar multiplication
+- Length
+- Dot product
+- Distance
+- Normalization
+
+Example:
+
+```c
+ToolCL_Vec2 a = toolcl_vec2(3.0f, 4.0f);
+ToolCL_Vec2 b = toolcl_vec2(1.0f, 2.0f);
+
+ToolCL_Vec2 result = toolcl_vec2_add(a, b);
+```
+
+---
+
+## Vec3
+
+`ToolCL_Vec3` represents a three-dimensional vector.
+
+Supported operations include:
+
+- Construction
+- Addition
+- Subtraction
+- Scalar multiplication
+- Length
+- Dot product
+- Distance
+- Cross product
+- Normalization
+
+Example:
+
+```c
+ToolCL_Vec3 a = toolcl_vec3(1.0f, 0.0f, 0.0f);
+ToolCL_Vec3 b = toolcl_vec3(0.0f, 1.0f, 0.0f);
+
+ToolCL_Vec3 normal = toolcl_vec3_cross(a, b);
+```
+
+Vector length and distance calculations use numerically safer `hypotf`-based calculations.
+
+---
+
+## Mat4
+
+`ToolCL_Mat4` provides 4×4 matrix operations used by the 3D foundation.
+
+Supported operations include:
+
+- Zero matrix
+- Identity matrix
+- Matrix multiplication
+- Translation
+- Scaling
+- X rotation
+- Y rotation
+- Z rotation
+- Perspective projection
+- 3D vector transformation
+
+Perspective projection validates its parameters before constructing the matrix, including:
+
+- Field of view
+- Aspect ratio
+- Near plane
+- Far plane
+- Finite floating-point values
+
+Vector transformation also protects against non-finite homogeneous `w` values.
 
 ---
 
 # 3D Foundation
 
-ToolCL includes an optional 3D layer built around OpenGL.
+The 3D examples are optional and are designed to demonstrate how the ToolCL mathematics layer can be used with a conventional OpenGL rendering pipeline.
 
-The 3D examples are kept separate from the core so applications that only need the basic framework do not have to depend on graphics libraries.
+## 3D Stack
 
-### 3D components
-
-| Example | Dependencies |
+| Component | Role |
 |---|---|
-| `hello_3d` | ToolCL + GLFW + OpenGL |
-| `hello_3d_vsync` | ToolCL + GLFW + OpenGL |
-| `hello_3d_lighting` | ToolCL + GLFW + OpenGL + GLEW |
-| `hello_3d_lighting_vsync` | ToolCL + GLFW + OpenGL + GLEW |
+| OpenGL | Rendering API |
+| GLFW | Window and context management |
+| GLEW | OpenGL extension/function loading |
+| GLSL | Shader programming |
+| ToolCL Math | Vectors and matrices |
+| ToolCL Mat4 | Transform and projection operations |
 
-### Graphics features
+## Rendering Pipeline
 
-The current 3D examples demonstrate:
-
-- OpenGL context creation
-- Basic rendering
-- VSync
-- Lighting
-- Matrix transformations
-- Vertex processing
-- Shader-based rendering
-
-The 3D layer can be disabled completely with:
+The examples use the familiar transformation flow:
 
 ```text
--DTOOLCL_BUILD_3D=OFF
+Model
+  │
+  ▼
+View
+  │
+  ▼
+Projection
+  │
+  ▼
+Clip Space
+  │
+  ▼
+OpenGL Rasterization
 ```
+
+The `Mat4` module supplies the transformation foundation for this process.
+
+---
+
+## Perspective Projection
+
+The perspective examples demonstrate a conventional perspective matrix using:
+
+```text
+Field of View
+Aspect Ratio
+Near Plane
+Far Plane
+```
+
+Invalid values are rejected instead of allowing invalid matrices to propagate through the rendering pipeline.
+
+---
+
+## Lighting
+
+The lighting examples demonstrate a basic directional-light model.
+
+The rendering pipeline can include:
+
+```text
+Vertex Position
+       │
+       ▼
+   Model/View
+       │
+       ▼
+   Projection
+       │
+       ▼
+   Fragment Shader
+       │
+       ├── Diffuse Lighting
+       ├── Specular Lighting
+       └── Shadow Contribution
+```
+
+---
+
+## Shadow Mapping
+
+The advanced lighting example demonstrates shadow mapping.
+
+The general process is:
+
+```text
+Light Space
+    │
+    ▼
+Shadow Map
+    │
+    ▼
+Fragment Position
+    │
+    ▼
+Depth Comparison
+    │
+    ▼
+Shadow Factor
+```
+
+PCF filtering can be used to reduce hard shadow-map edges by sampling neighboring depth values.
+
+Polygon offset is also used where appropriate to reduce common depth precision artifacts such as shadow acne.
+
+---
+
+## VSync
+
+The VSync examples demonstrate synchronization between rendering and the display refresh cycle.
+
+Available variants include:
+
+- `hello_3d_vsync`
+- `hello_3d_lighting_vsync`
+
+The non-VSync versions are also available for comparison.
 
 ---
 
 # Examples
 
-ToolCL contains examples for both the core modules and the optional 3D layer.
+ToolCL includes small examples ranging from basic framework usage to complete OpenGL demonstrations.
 
-### Core examples
+## Basic Examples
+
+### `hello_world`
+
+A minimal ToolCL application.
+
+### `hello_random`
+
+A simple example demonstrating basic framework functionality with generated values.
+
+---
+
+## 3D Examples
+
+| Example | Description |
+|---|---|
+| `hello_3d` | Basic OpenGL 3D rendering |
+| `hello_3d_vsync` | Basic 3D rendering with VSync |
+| `hello_3d_lighting` | 3D rendering with lighting and shadows |
+| `hello_3d_lighting_vsync` | Lighting example with VSync |
+
+The repository also contains additional focused example sources for individual modules, such as:
 
 ```text
-hello_logger
-hello_math
-hello_string
-hello_vec2
+examples/
+├── experimental/
+│   ├── hello_world.c
+│   └── hello_random.c
+│
+└── 3d/
+    ├── hello_3d.c
+    ├── hello_3d_vsync.c
+    ├── hello_3d_lighting.c
+    └── hello_3d_lighting_vsync.c
 ```
 
-### Experimental examples
-
-```text
-hello_world
-hello_random
-```
-
-### 3D examples
-
-```text
-hello_3d
-hello_3d_vsync
-hello_3d_lighting
-hello_3d_lighting_vsync
-```
-
-The examples are built through CMake when `TOOLCL_BUILD_EXAMPLES` is enabled.
+Module-specific examples may exist in the source tree without being registered as top-level CMake targets.
 
 ---
 
 # Requirements
 
-### Core
+## Core
+
+To build the ToolCL core:
 
 - C99-compatible compiler
-- CMake **3.25 or newer**
+- CMake 3.25 or newer
+- Standard C library
+- Unix-like environment recommended
 
-### 3D examples
+## 3D Examples
 
-- OpenGL development libraries
+The optional 3D examples additionally require:
+
+- OpenGL development files
 - GLFW
 - GLEW
+- OpenGL-capable environment
 
-`pkg-config` can be used to locate installed GLFW and GLEW packages.
+When enabled, CMake can fetch missing GLFW/GLEW dependencies through `FetchContent`.
 
-When enabled, CMake can also fetch missing 3D dependencies automatically.
+> [!NOTE]
+> The 3D examples are optional. Core development and core tests can be built with 3D disabled.
 
 ---
 
@@ -258,16 +610,17 @@ git clone https://github.com/ToolGits/ToolCL.git
 cd ToolCL
 ```
 
-Configure a normal build:
+## Basic Build
+
+For a normal build without the optional 3D layer:
 
 ```bash
-cmake -S . -B build
-```
+cmake -S . -B build \
+  -DTOOLCL_BUILD_EXAMPLES=ON \
+  -DTOOLCL_BUILD_3D=OFF \
+  -DTOOLCL_BUILD_TESTS=ON
 
-Build:
-
-```bash
-cmake --build build
+cmake --build build -j"$(nproc)"
 ```
 
 Run the tests:
@@ -276,57 +629,73 @@ Run the tests:
 ctest --test-dir build --output-on-failure
 ```
 
-### Build without 3D
+---
+
+## Full Build
+
+To build the complete project, including the 3D examples:
 
 ```bash
 cmake -S . -B build \
-    -DTOOLCL_BUILD_3D=OFF
-```
-
-### Full build
-
-```bash
-cmake -S . -B build \
-    -DTOOLCL_BUILD_EXAMPLES=ON \
-    -DTOOLCL_BUILD_3D=ON \
-    -DTOOLCL_BUILD_TESTS=ON
+  -DTOOLCL_BUILD_EXAMPLES=ON \
+  -DTOOLCL_BUILD_3D=ON \
+  -DTOOLCL_BUILD_TESTS=ON
 
 cmake --build build -j"$(nproc)"
+```
+
+Then:
+
+```bash
 ctest --test-dir build --output-on-failure
+```
+
+---
+
+## Clean Build
+
+When a completely fresh build is desired:
+
+```bash
+rm -rf build
+
+cmake -S . -B build \
+  -DTOOLCL_BUILD_EXAMPLES=ON \
+  -DTOOLCL_BUILD_3D=ON \
+  -DTOOLCL_BUILD_TESTS=ON
+
+cmake --build build -j"$(nproc)"
 ```
 
 ---
 
 # CMake Options
 
+ToolCL exposes the following main configuration options:
+
 | Option | Default | Description |
 |---|---:|---|
-| `TOOLCL_BUILD_EXAMPLES` | `ON` | Build examples |
+| `TOOLCL_BUILD_EXAMPLES` | `ON` | Build example programs |
 | `TOOLCL_BUILD_3D` | `ON` | Build OpenGL 3D examples |
-| `TOOLCL_BUILD_TESTS` | `ON` | Build automated tests |
-| `TOOLCL_FETCH_3D_DEPS` | `ON` | Fetch missing GLFW/GLEW dependencies |
+| `TOOLCL_BUILD_TESTS` | `ON` | Build and register tests |
+| `TOOLCL_FETCH_3D_DEPS` | `ON` | Fetch GLFW/GLEW when unavailable |
 
-For example:
+For example, to build only the core and tests:
 
 ```bash
 cmake -S . -B build \
-    -DTOOLCL_BUILD_EXAMPLES=OFF \
-    -DTOOLCL_BUILD_TESTS=ON
+  -DTOOLCL_BUILD_EXAMPLES=OFF \
+  -DTOOLCL_BUILD_3D=OFF \
+  -DTOOLCL_BUILD_TESTS=ON
 ```
 
 ---
 
 # CMake Presets
 
-ToolCL provides three main presets.
+ToolCL includes `CMakePresets.json` for common development configurations.
 
-| Preset | Build Type | Tests | Examples | 3D |
-|---|---|---:|---:|---:|
-| `debug` | Debug | Yes | Yes | No |
-| `release` | Release | Yes | Yes | No |
-| `3d` | Release | Yes | Yes | Yes |
-
-### Debug
+## Debug
 
 ```bash
 cmake --preset debug
@@ -334,7 +703,18 @@ cmake --build --preset debug
 ctest --preset debug
 ```
 
-### Release
+The debug preset enables:
+
+- Debug build
+- Tests
+- Examples
+- Core-only configuration
+
+3D is disabled so the preset remains suitable for environments without a graphics development stack.
+
+---
+
+## Release
 
 ```bash
 cmake --preset release
@@ -342,7 +722,11 @@ cmake --build --preset release
 ctest --preset release
 ```
 
-### 3D
+The release preset provides an optimized core-oriented configuration while keeping tests and examples enabled.
+
+---
+
+## 3D
 
 ```bash
 cmake --preset 3d
@@ -350,21 +734,69 @@ cmake --build --preset 3d
 ctest --preset 3d
 ```
 
+The 3D preset enables:
+
+- Release build
+- Tests
+- Examples
+- OpenGL 3D examples
+
 ---
 
 # Testing
 
-ToolCL uses **CTest** for automated testing.
+ToolCL uses CTest for automated testing.
 
-Current test suite:
+The current test suite is organized into five main test programs:
 
-```text
-test_logger
-test_math
-test_string
-test_vec
-test_mat4
-```
+| Test | Coverage |
+|---|---|
+| `test_logger` | Logger behavior |
+| `test_math` | Mathematical utilities and edge cases |
+| `test_string` | String utilities |
+| `test_vec` | Vec2 and Vec3 operations |
+| `test_mat4` | Matrix operations and transformations |
+
+## Math Edge Cases
+
+The math tests cover cases such as:
+
+- Division by zero
+- Negative square roots
+- Inverted clamp bounds
+- Arithmetic operations
+- Interpolation
+- Angle conversion
+
+## Vector Tests
+
+Vector tests cover:
+
+- Construction
+- Addition
+- Subtraction
+- Scalar multiplication
+- Length
+- Distance
+- Dot product
+- Cross product
+- Normalization
+- Zero-vector normalization
+
+## Matrix Tests
+
+Matrix tests cover:
+
+- Identity matrices
+- Zero matrices
+- Matrix multiplication
+- Translation
+- Scaling
+- Rotation
+- Perspective projection
+- Vector transformation
+- Invalid perspective parameters
+- Non-finite transformation values
 
 Run all tests with:
 
@@ -372,29 +804,17 @@ Run all tests with:
 ctest --test-dir build --output-on-failure
 ```
 
-The core test suite covers normal operations as well as edge cases such as:
+Or, using the debug preset:
 
-- Division by zero
-- Negative square roots
-- Inverted clamp bounds
-- Zero-vector normalization
-- Vector length and distance
-- Matrix multiplication
-- Matrix transformations
-- Invalid perspective parameters
-- Non-finite matrix values
-
-The current test suite has been validated successfully with:
-
-```text
-100% tests passed out of 5
+```bash
+ctest --preset debug
 ```
 
 ---
 
 # Basic Usage
 
-A minimal ToolCL program can include the framework headers directly:
+A minimal ToolCL program can look like this:
 
 ```c
 #include <toolcl/logger.h>
@@ -402,34 +822,37 @@ A minimal ToolCL program can include the framework headers directly:
 
 int main(void)
 {
-    ToolCL_Vec3 position = toolcl_vec3(1.0f, 2.0f, 3.0f);
+    ToolCL_Vec3 a = toolcl_vec3(1.0f, 2.0f, 3.0f);
+    ToolCL_Vec3 b = toolcl_vec3(4.0f, 5.0f, 6.0f);
+
+    ToolCL_Vec3 result = toolcl_vec3_add(a, b);
 
     toolcl_log_info(
-        "Position: %.2f %.2f %.2f",
-        position.x,
-        position.y,
-        position.z
+        "Result: %.2f %.2f %.2f",
+        result.x,
+        result.y,
+        result.z
     );
 
     return 0;
 }
 ```
 
-The framework is linked through the `toolcl` CMake target:
+Compile the application against the ToolCL framework target:
 
 ```cmake
 add_executable(my_app main.c)
 
-target_link_libraries(
-    my_app
-    PRIVATE
-    toolcl
-)
+target_link_libraries(my_app PRIVATE toolcl)
 ```
+
+The framework exposes its headers through the `include/` directory.
 
 ---
 
 # Project Structure
+
+The repository is organized around the framework core, examples and tests:
 
 ```text
 ToolCL/
@@ -456,20 +879,15 @@ ToolCL/
 │   └── mat4.c
 │
 ├── examples/
-│   ├── hello_logger.c
-│   ├── hello_math.c
-│   ├── hello_string.c
-│   ├── hello_vec2.c
+│   ├── experimental/
+│   │   ├── hello_world.c
+│   │   └── hello_random.c
 │   │
-│   ├── 3d/
-│   │   ├── hello_3d.c
-│   │   ├── hello_3d_vsync.c
-│   │   ├── hello_3d_lighting.c
-│   │   └── hello_3d_lighting_vsync.c
-│   │
-│   └── experimental/
-│       ├── hello_world.c
-│       └── hello_random.c
+│   └── 3d/
+│       ├── hello_3d.c
+│       ├── hello_3d_vsync.c
+│       ├── hello_3d_lighting.c
+│       └── hello_3d_lighting_vsync.c
 │
 └── tests/
     ├── test_logger.c
@@ -479,41 +897,87 @@ ToolCL/
     └── test_mat4.c
 ```
 
+Build artifacts are generated inside the selected build directory and are not part of the source tree.
+
 ---
 
 # Portability
 
-ToolCL is designed around standard C99 and a small dependency surface.
+ToolCL is built around C99 and aims to keep its core portable.
 
-The core framework does not require a graphics stack.
+## Current Direction
 
-The optional 3D examples introduce platform-specific graphics dependencies only when requested.
+```text
+                    ToolCL
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+        Linux                Windows
+          │                       │
+     Primary focus          Support evolving
+```
 
-Platform support continues to evolve as the framework is tested and validated across different environments.
+The core framework intentionally avoids unnecessary platform-specific dependencies.
+
+The optional 3D layer naturally depends on the graphics environment available on the target platform.
+
+> [!NOTE]
+> Platform support should be considered separately from graphics support. A platform may be able to build the ToolCL core without necessarily having the OpenGL development environment required by the 3D examples.
 
 ---
 
 # Development
 
-ToolCL uses CMake as its build system and keeps development workflows separated through presets.
+ToolCL development follows a few practical principles.
 
-A typical development cycle is:
+## Keep the Core Focused
 
-```bash
-cmake --preset debug
-cmake --build --preset debug
-ctest --preset debug
+New functionality should have a clear reason to exist in the framework.
+
+ToolCL should not grow simply for the sake of adding more modules.
+
+## Prefer Portable C
+
+The framework targets C99 and should avoid unnecessary compiler-specific features when a portable solution is practical.
+
+## Test Changes
+
+Changes to core functionality should be accompanied by appropriate tests.
+
+For example:
+
+```text
+Implementation
+     │
+     ▼
+Tests
+     │
+     ▼
+CMake / Build
+     │
+     ▼
+CTest
 ```
 
-For 3D development:
+## Validate Edge Cases
 
-```bash
-cmake --preset 3d
-cmake --build --preset 3d
-ctest --preset 3d
-```
+Small utilities can still fail in important ways when given unusual input.
 
-When adding or modifying a component, the corresponding tests should be updated alongside the implementation.
+ToolCL therefore pays attention to cases such as:
+
+- Zero values
+- Invalid ranges
+- Division by zero
+- Negative square-root input
+- Zero-length vectors
+- Invalid perspective parameters
+- Non-finite floating-point values
+
+## Keep Examples Honest
+
+Examples should demonstrate functionality without pretending to be production engines.
+
+The 3D examples are demonstrations of the framework's mathematical and rendering foundations, not a complete game engine or graphics engine.
 
 ---
 
