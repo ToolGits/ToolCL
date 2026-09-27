@@ -24,7 +24,7 @@ ToolCL_Vec2 toolcl_vec2_mul(ToolCL_Vec2 v, float scalar)
 
 float toolcl_vec2_length(ToolCL_Vec2 v)
 {
-    return sqrtf(v.x * v.x + v.y * v.y);
+    return hypotf(v.x, v.y);
 }
 
 float toolcl_vec2_dot(ToolCL_Vec2 a, ToolCL_Vec2 b)
@@ -34,7 +34,7 @@ float toolcl_vec2_dot(ToolCL_Vec2 a, ToolCL_Vec2 b)
 
 float toolcl_vec2_distance(ToolCL_Vec2 a, ToolCL_Vec2 b)
 {
-    return toolcl_vec2_length(toolcl_vec2_sub(a, b));
+    return hypotf(a.x - b.x, a.y - b.y);
 }
 
 ToolCL_Vec2 toolcl_vec2_normalize(ToolCL_Vec2 v)

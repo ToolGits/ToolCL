@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.25)
 
 project(ToolCL VERSION 0.4.5 LANGUAGES C)
 
@@ -30,7 +30,6 @@ target_include_directories(toolcl PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
 
-# vec2 uses sqrtf(), which requires libm on typical Unix toolchains.
 if(UNIX)
     target_link_libraries(toolcl PUBLIC m)
 endif()
@@ -73,6 +72,24 @@ if(TOOLCL_BUILD_EXAMPLES)
             message(FATAL_ERROR "GLFW3 not found")
         endif()
 
+        add_executable(hello_3d examples/3d/hello_3d.c)
+        target_link_libraries(
+            hello_3d
+            PRIVATE
+            toolcl
+            ${TOOLCL_GLFW_TARGET}
+            OpenGL::GL
+        )
+
+        add_executable(hello_3d_vsync examples/3d/hello_3d_vsync.c)
+        target_link_libraries(
+            hello_3d_vsync
+            PRIVATE
+            toolcl
+            ${TOOLCL_GLFW_TARGET}
+            OpenGL::GL
+        )
+
         if(TARGET PkgConfig::GLEW)
             set(TOOLCL_GLEW_TARGET PkgConfig::GLEW)
         elseif(TOOLCL_FETCH_3D_DEPS)
@@ -102,21 +119,12 @@ if(TOOLCL_BUILD_EXAMPLES)
         endif()
 
         foreach(example
-            hello_3d
-            hello_3d_vsync
             hello_3d_lighting
             hello_3d_lighting_vsync
         )
             add_executable(
                 ${example}
                 examples/3d/${example}.c
-                examples/3d/hello_3d_common.c
-            )
-
-            target_include_directories(
-                ${example}
-                PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/examples/3d
             )
 
             target_link_libraries(

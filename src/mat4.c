@@ -119,27 +119,41 @@ ToolCL_Mat4 toolcl_mat4_perspective(
     float tan_half_fov;
     float range;
 
-    if (aspect <= 0.0f)
+    if (!isfinite(fov_radians) ||
+        fov_radians <= 0.0f ||
+        fov_radians >= TOOLCL_PI)
         return result;
 
-    if (near_plane <= 0.0f)
+    if (!isfinite(aspect) || aspect <= 0.0f)
         return result;
 
-    if (far_plane <= near_plane)
+    if (!isfinite(near_plane) || near_plane <= 0.0f)
+        return result;
+
+    if (!isfinite(far_plane) || far_plane <= near_plane)
         return result;
 
     tan_half_fov = toolcl_tanf(fov_radians * 0.5f);
 
-    if (tan_half_fov == 0.0f)
+    if (!isfinite(tan_half_fov) || tan_half_fov <= 0.0f)
         return result;
 
     range = far_plane - near_plane;
+
+    if (!isfinite(range) || range <= 0.0f)
+        return result;
 
     result.data[0] = 1.0f / (aspect * tan_half_fov);
     result.data[5] = 1.0f / tan_half_fov;
     result.data[10] = -(far_plane + near_plane) / range;
     result.data[11] = -1.0f;
     result.data[14] = -(2.0f * far_plane * near_plane) / range;
+
+    if (!isfinite(result.data[0]) ||
+        !isfinite(result.data[5]) ||
+        !isfinite(result.data[10]) ||
+        !isfinite(result.data[14]))
+        return toolcl_mat4_zero();
 
     return result;
 }
@@ -177,6 +191,9 @@ ToolCL_Vec3 toolcl_mat4_transform_vec3(
         matrix.data[7] * vector.y +
         matrix.data[11] * vector.z +
         matrix.data[15];
+
+    if (!isfinite(w))
+        return vector;
 
     if (w != 0.0f && w != 1.0f)
     {
