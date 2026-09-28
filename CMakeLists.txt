@@ -22,6 +22,7 @@ set(TOOLCL_SOURCES
     src/vec3.c
     src/mat4.c
     src/string.c
+    src/platform.c
 )
 
 add_library(toolcl STATIC ${TOOLCL_SOURCES})
