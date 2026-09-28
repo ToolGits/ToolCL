@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TOOLCL_PLATFORM_H
+#define TOOLCL_PLATFORM_H
 
 typedef enum {
     TOOLCL_PLATFORM_LINUX,
@@ -8,3 +9,5 @@ typedef enum {
 } ToolCL_Platform;
 
 ToolCL_Platform toolcl_get_platform(void);
+
+#endif
