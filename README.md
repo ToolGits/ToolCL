@@ -10,7 +10,7 @@ A lightweight C99 framework for building portable applications with modular util
 [![Language](https://img.shields.io/badge/language-C99-blue?style=for-the-badge&logo=c)](https://en.cppreference.com/w/c)
 [![Build System](https://img.shields.io/badge/build-CMake-red?style=for-the-badge&logo=cmake)](https://cmake.org/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey?style=for-the-badge)](#portability)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey?style=for-the-badge&logo=linux)](#portability)
 
 </div>
 
@@ -52,7 +52,7 @@ A lightweight C99 framework for building portable applications with modular util
 
 # Overview
 
-**ToolCL** is a lightweight C99 framework created by **enzobobdevvideos04-ctrl** under the **ToolGits** organization.
+**ToolCL** is a lightweight C99 framework created by **enzobobdevvideos04-ctrl** and maintained within the **ToolGits** organization.
 
 It provides a small collection of reusable building blocks for C applications while keeping the core simple, modular and dependency-light.
 
@@ -831,7 +831,8 @@ The test suite includes edge cases such as:
 - Vector transformation
 - Non-finite homogeneous values
 
-The current v0.4.5 core test suite has:
+> [!NOTE]
+> The current **v0.4.5** core test suite contains five test targets, with all five passing.
 
 ```text
 5/5 tests passing
@@ -1026,13 +1027,13 @@ The 3D examples demonstrate the interaction between ToolCL mathematics and OpenG
 
 # ToolGits
 
-ToolCL is developed under the **ToolGits** organization.
+ToolCL is an independent project maintained within the **ToolGits** organization.
 
 **Organization:** [ToolGits](https://github.com/ToolGits)
 
 **Creator:** [enzobobdevvideos04-ctrl](https://github.com/enzobobdevvideos04-ctrl)
 
-ToolCL was created by **enzobobdevvideos04-ctrl** as part of the ToolGits project ecosystem.
+ToolGits provides the organizational home for ToolCL, while ToolCL remains its own independent project with its own source tree, release cycle and license.
 
 ---
 
@@ -1052,6 +1053,6 @@ See [`LICENSE`](LICENSE) for the complete license text.
 
 Created by [enzobobdevvideos04-ctrl](https://github.com/enzobobdevvideos04-ctrl)
 
-Part of [ToolGits](https://github.com/ToolGits)
+Maintained under [ToolGits](https://github.com/ToolGits)
 
 </div>
