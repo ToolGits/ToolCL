@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  linux:
+  ubuntu:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,7 +20,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            pkg-config \
+            libgl1-mesa-dev \
+            libglfw3-dev \
+            libglew-dev
 
       - name: Configure
         env:
@@ -31,7 +37,54 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DTOOLCL_BUILD_TESTS=ON \
             -DTOOLCL_BUILD_EXAMPLES=ON \
-            -DTOOLCL_BUILD_3D=OFF
+            -DTOOLCL_BUILD_3D=ON \
+            -DTOOLCL_FETCH_3D_DEPS=OFF
+
+      - name: Build
+        run: cmake --build build/ci
+
+      - name: Test
+        run: ctest --test-dir build/ci --output-on-failure
+
+  arch:
+    runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:latest
+
+    strategy:
+      matrix:
+        compiler:
+          - gcc
+          - clang
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm \
+            cmake \
+            ninja \
+            pkgconf \
+            gcc \
+            clang \
+            mesa \
+            glfw \
+            glew
+
+      - name: Configure
+        env:
+          CC: ${{ matrix.compiler }}
+        run: |
+          cmake -S . -B build/ci \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DTOOLCL_BUILD_TESTS=ON \
+            -DTOOLCL_BUILD_EXAMPLES=ON \
+            -DTOOLCL_BUILD_3D=ON \
+            -DTOOLCL_FETCH_3D_DEPS=OFF
 
       - name: Build
         run: cmake --build build/ci
