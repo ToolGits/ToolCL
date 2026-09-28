@@ -25,6 +25,14 @@ A lightweight C99 framework for building portable applications with modular util
 > [!IMPORTANT]
 > The ToolCL core does not require OpenGL, GLFW or GLEW. The 3D stack is optional and controlled through CMake options.
 
+> [!WARNING]
+> **Windows portability is currently under development.**
+> ToolCL is primarily developed and validated on Linux. Windows support is a work in progress and should not be considered fully supported yet.
+
+> [!WARNING]
+> **ToolCL is not a complete game engine or 3D framework.**
+> The ToolCL core was not designed specifically for 3D rendering. Its vector and matrix modules provide general mathematical building blocks, while the optional 3D examples demonstrate how they can be used with OpenGL.
+
 ---
 
 ## Table of Contents
