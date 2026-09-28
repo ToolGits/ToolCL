@@ -6,6 +6,7 @@ message(STATUS "Configuring ToolCL ${PROJECT_VERSION}")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
 option(TOOLCL_BUILD_EXAMPLES "Build ToolCL examples" ON)
 option(TOOLCL_BUILD_3D "Build ToolCL 3D examples" ON)
@@ -36,23 +37,37 @@ if(UNIX)
 endif()
 
 if(TOOLCL_BUILD_EXAMPLES)
-    add_executable(hello_world examples/experimental/hello_world.c)
+    add_executable(hello_world
+        examples/experimental/hello_world.c
+    )
+
     target_link_libraries(hello_world PRIVATE toolcl)
 
-    add_executable(hello_random examples/experimental/hello_random.c)
+    add_executable(hello_random
+        examples/experimental/hello_random.c
+    )
+
     target_link_libraries(hello_random PRIVATE toolcl)
 
     if(TOOLCL_BUILD_3D)
         find_package(OpenGL REQUIRED)
         find_package(PkgConfig QUIET)
 
+        set(TOOLCL_GLFW_TARGET "")
+        set(TOOLCL_GLEW_TARGET "")
+
         if(PkgConfig_FOUND)
-            pkg_check_modules(GLFW3 QUIET IMPORTED_TARGET glfw3)
-            pkg_check_modules(GLEW QUIET IMPORTED_TARGET glew)
+            pkg_check_modules(
+                GLFW3
+                QUIET
+                IMPORTED_TARGET
+                glfw3
+            )
         endif()
 
         if(TARGET PkgConfig::GLFW3)
             set(TOOLCL_GLFW_TARGET PkgConfig::GLFW3)
+
         elseif(TOOLCL_FETCH_3D_DEPS)
             include(FetchContent)
 
@@ -69,30 +84,25 @@ if(TOOLCL_BUILD_EXAMPLES)
             FetchContent_MakeAvailable(glfw)
 
             set(TOOLCL_GLFW_TARGET glfw)
+
         else()
-            message(FATAL_ERROR "GLFW3 not found")
+            message(FATAL_ERROR
+                "GLFW3 not found and TOOLCL_FETCH_3D_DEPS is OFF"
+            )
         endif()
 
-        add_executable(hello_3d examples/3d/hello_3d.c)
-        target_link_libraries(
-            hello_3d
-            PRIVATE
-            toolcl
-            ${TOOLCL_GLFW_TARGET}
-            OpenGL::GL
-        )
-
-        add_executable(hello_3d_vsync examples/3d/hello_3d_vsync.c)
-        target_link_libraries(
-            hello_3d_vsync
-            PRIVATE
-            toolcl
-            ${TOOLCL_GLFW_TARGET}
-            OpenGL::GL
-        )
+        if(PkgConfig_FOUND)
+            pkg_check_modules(
+                GLEW
+                QUIET
+                IMPORTED_TARGET
+                glew
+            )
+        endif()
 
         if(TARGET PkgConfig::GLEW)
             set(TOOLCL_GLEW_TARGET PkgConfig::GLEW)
+
         elseif(TOOLCL_FETCH_3D_DEPS)
             include(FetchContent)
 
@@ -110,14 +120,47 @@ if(TOOLCL_BUILD_EXAMPLES)
 
             if(TARGET glew_s)
                 set(TOOLCL_GLEW_TARGET glew_s)
+
             elseif(TARGET glew)
                 set(TOOLCL_GLEW_TARGET glew)
+
             else()
-                message(FATAL_ERROR "GLEW target was not created")
+                message(FATAL_ERROR
+                    "GLEW target was not created"
+                )
             endif()
+
         else()
-            message(FATAL_ERROR "GLEW not found")
+            message(FATAL_ERROR
+                "GLEW not found and TOOLCL_FETCH_3D_DEPS is OFF"
+            )
         endif()
+
+        add_executable(
+            hello_3d
+            examples/3d/hello_3d.c
+        )
+
+        target_link_libraries(
+            hello_3d
+            PRIVATE
+            toolcl
+            ${TOOLCL_GLFW_TARGET}
+            OpenGL::GL
+        )
+
+        add_executable(
+            hello_3d_vsync
+            examples/3d/hello_3d_vsync.c
+        )
+
+        target_link_libraries(
+            hello_3d_vsync
+            PRIVATE
+            toolcl
+            ${TOOLCL_GLFW_TARGET}
+            OpenGL::GL
+        )
 
         foreach(example
             hello_3d_lighting
@@ -150,8 +193,20 @@ if(TOOLCL_BUILD_TESTS)
         test_vec
         test_mat4
     )
-        add_executable(${test} tests/${test}.c)
-        target_link_libraries(${test} PRIVATE toolcl)
-        add_test(NAME ${test} COMMAND ${test})
+        add_executable(
+            ${test}
+            tests/${test}.c
+        )
+
+        target_link_libraries(
+            ${test}
+            PRIVATE
+            toolcl
+        )
+
+        add_test(
+            NAME ${test}
+            COMMAND ${test}
+        )
     endforeach()
 endif()
