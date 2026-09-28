@@ -31,7 +31,8 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TOOLCL_BUILD_TESTS": "ON",
         "TOOLCL_BUILD_EXAMPLES": "ON",
-        "TOOLCL_BUILD_3D": "ON"
+        "TOOLCL_BUILD_3D": "ON",
+        "TOOLCL_FETCH_3D_DEPS": "ON"
       }
     }
   ],
