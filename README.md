@@ -4,13 +4,13 @@
 
 ### Keep it small. Keep it portable. Keep it simple.
 
-A lightweight C99 framework for building portable applications with modular utilities, mathematics, logging, strings, vectors, matrices and optional 3D/OpenGL examples.
+A lightweight C99 framework for building portable applications with modular utilities, mathematics, logging, strings, vectors, matrices, platform detection and optional 3D/OpenGL examples.
 
 [![Version](https://img.shields.io/badge/version-0.4.5-blue?style=for-the-badge)](https://github.com/ToolGits/ToolCL/releases)
 [![Language](https://img.shields.io/badge/language-C99-blue?style=for-the-badge&logo=c)](https://en.cppreference.com/w/c)
 [![Build System](https://img.shields.io/badge/build-CMake-red?style=for-the-badge&logo=cmake)](https://cmake.org/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey?style=for-the-badge&logo=linux)](#portability)
+[![Targets](https://img.shields.io/badge/targets-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey?style=for-the-badge)](#portability)
 
 </div>
 
@@ -26,8 +26,8 @@ A lightweight C99 framework for building portable applications with modular util
 > The ToolCL core does not require OpenGL, GLFW or GLEW. The 3D stack is optional and controlled through CMake options.
 
 > [!WARNING]
-> **Windows portability is currently under development.**
-> ToolCL is primarily developed and validated on Linux. Windows support is a work in progress and should not be considered fully supported yet.
+> **Windows and macOS support are planned for ToolCL v0.5.0.**
+> ToolCL v0.4.5 is currently developed and validated primarily on Linux. Official Windows and macOS support, including platform-specific support and official builds, is planned for v0.5.0.
 
 > [!WARNING]
 > **ToolCL is not a complete game engine or 3D framework.**
@@ -49,6 +49,7 @@ A lightweight C99 framework for building portable applications with modular util
 - [CMake Options](#cmake-options)
 - [CMake Presets](#cmake-presets)
 - [Testing](#testing)
+- [Continuous Integration](#continuous-integration)
 - [Basic Usage](#basic-usage)
 - [Project Structure](#project-structure)
 - [Portability](#portability)
@@ -70,7 +71,7 @@ ToolCL is intentionally focused. It is not designed to become a framework that a
 
 | Layer | Components | Purpose |
 |---|---|---|
-| **Core** | `Logger` · `Math` · `String` | Fundamental utilities |
+| **Core** | `Logger` · `Math` · `String` · `Platform` | Fundamental utilities and platform foundation |
 | **Vectors** | `Vec2` · `Vec3` | 2D and 3D vector mathematics |
 | **Matrices** | `Mat4` | 4×4 transformations and 3D mathematics |
 | **3D Layer** | `OpenGL` · `GLFW` · `GLEW` | Optional real-time 3D examples |
@@ -86,7 +87,8 @@ ToolCL
 ├── Core
 │   ├── Logger
 │   ├── Math
-│   └── String
+│   ├── String
+│   └── Platform
 │
 ├── Mathematics
 │   ├── Vec2
@@ -133,7 +135,7 @@ Built around **C99** and a small dependency footprint, ToolCL is designed to kee
 
 ### Modular
 
-Logging, mathematics, strings, vectors and matrices are organized as independent components, allowing the framework to grow without becoming unnecessarily difficult to maintain.
+Logging, mathematics, strings, vectors, matrices and platform detection are organized as independent components, allowing the framework to grow without becoming unnecessarily difficult to maintain.
 
 ### Optional 3D
 
@@ -162,6 +164,7 @@ ToolCL follows a straightforward philosophy:
 - Logging system
 - Mathematical helpers
 - String utilities
+- Platform detection
 - 2D and 3D vector mathematics
 - 4×4 matrix mathematics
 - Linear interpolation
@@ -206,6 +209,21 @@ The vector implementations use `hypotf`-based length and distance calculations f
 
 Perspective construction validates its input parameters before producing a matrix.
 
+## Platform
+
+The platform module provides basic platform identification for the ToolCL core.
+
+Currently recognized platforms include:
+
+- Linux
+- Windows
+- macOS
+- Unknown
+
+Platform detection is intentionally lightweight and keeps platform identification separate from higher-level framework functionality.
+
+Official platform-specific support and builds for Windows and macOS are planned for **v0.5.0**.
+
 ## 3D
 
 The optional 3D layer provides examples using:
@@ -232,6 +250,7 @@ The optional 3D layer provides examples using:
 - Optional tests
 - Optional 3D dependency fetching
 - `pkg-config` integration when available
+- C99 extensions disabled for a standard C99 build
 
 ---
 
@@ -247,9 +266,10 @@ flowchart TD
     B --> B1[Logger]
     B --> B2[Math]
     B --> B3[String]
-    B --> B4[Vec2]
-    B --> B5[Vec3]
-    B --> B6[Mat4]
+    B --> B4[Platform]
+    B --> B5[Vec2]
+    B --> B6[Vec3]
+    B --> B7[Mat4]
 
     C --> C1[Experimental]
     C --> C2[Basic 3D]
@@ -280,6 +300,7 @@ ToolCL
 │   ├── Logger
 │   ├── Math
 │   ├── String
+│   ├── Platform
 │   ├── Vec2
 │   ├── Vec3
 │   └── Mat4
@@ -301,6 +322,7 @@ This separation keeps the core independent from graphics-specific dependencies.
 | Logger | `toolcl/logger.h` | Logging and log levels |
 | Math | `toolcl/math.h` | Mathematical helpers |
 | String | `toolcl/string.h` | String utilities |
+| Platform | `toolcl/platform.h` | Platform identification |
 | Vec2 | `toolcl/vec2.h` | 2D vector operations |
 | Vec3 | `toolcl/vec3.h` | 3D vector operations |
 | Mat4 | `toolcl/mat4.h` | 4×4 matrix operations |
@@ -350,6 +372,31 @@ The implementation handles important edge cases such as division by zero, negati
 The string module provides lightweight helpers for common string operations.
 
 It is intended to complement the C standard library rather than replace it with a large abstraction layer.
+
+---
+
+## Platform
+
+The platform module provides a small platform detection API.
+
+```c
+#include <toolcl/platform.h>
+
+ToolCL_Platform platform = toolcl_get_platform();
+```
+
+The current platform identifiers are:
+
+```c
+TOOLCL_PLATFORM_LINUX
+TOOLCL_PLATFORM_WINDOWS
+TOOLCL_PLATFORM_MACOS
+TOOLCL_PLATFORM_UNKNOWN
+```
+
+The implementation uses compiler-provided platform macros to identify the current target.
+
+Platform detection is already part of the ToolCL core, while the broader platform-specific support and official builds for Windows and macOS are planned for **v0.5.0**.
 
 ---
 
@@ -772,8 +819,9 @@ Configuration:
 | Tests | ON |
 | Examples | ON |
 | 3D | ON |
+| Fetch 3D dependencies | ON |
 
-The 3D preset is intended for environments with the required OpenGL development stack.
+The 3D preset is intended for environments where the OpenGL development stack is available or can be fetched automatically.
 
 ---
 
@@ -849,6 +897,51 @@ The test suite includes edge cases such as:
 
 ---
 
+# Continuous Integration
+
+ToolCL uses automated CI to validate the project across multiple Linux environments and compilers.
+
+The CI matrix currently covers:
+
+| Environment | GCC | Clang | 3D Build | Tests |
+|---|:---:|:---:|:---:|:---:|
+| Ubuntu | ✓ | ✓ | ✓ | ✓ |
+| Arch Linux | ✓ | ✓ | ✓ | ✓ |
+
+The CI builds the core, examples and optional 3D targets.
+
+The graphical examples are **compiled and linked**, but CI does not launch graphical applications.
+
+## Ubuntu
+
+The Ubuntu CI environment installs the required development packages for:
+
+- CMake
+- Ninja
+- `pkg-config`
+- Mesa OpenGL development files
+- GLFW
+- GLEW
+
+## Arch Linux
+
+The Arch Linux CI environment uses the current Arch packages for:
+
+- CMake
+- Ninja
+- `pkgconf`
+- GCC
+- Clang
+- Mesa
+- GLFW
+- GLEW
+
+Both environments run the same CMake configuration and test workflow, with only the platform-specific dependency installation differing.
+
+CI disables automatic 3D dependency fetching so that the installed system packages are explicitly validated.
+
+---
+
 # Basic Usage
 
 A minimal ToolCL application can look like this:
@@ -909,6 +1002,7 @@ ToolCL/
 │       ├── logger.h
 │       ├── math.h
 │       ├── string.h
+│       ├── platform.h
 │       ├── vec2.h
 │       ├── vec3.h
 │       └── mat4.h
@@ -917,6 +1011,7 @@ ToolCL/
 │   ├── logger.c
 │   ├── math.c
 │   ├── string.c
+│   ├── platform.c
 │   ├── vec2.c
 │   ├── vec3.c
 │   └── mat4.c
@@ -948,18 +1043,40 @@ ToolCL is designed around C99 and a lightweight dependency model.
 
 The core intentionally avoids graphics-specific dependencies, allowing it to be used in environments where an OpenGL development stack is unavailable.
 
+The platform layer currently identifies:
+
+```text
+Linux
+Windows
+macOS
+Unknown
+```
+
 ```mermaid
 flowchart TD
     A[ToolCL Core] --> B[C99]
-    B --> C[Platform]
+    B --> C[Platform Detection]
 
     C --> D[Linux]
     C --> E[Windows]
+    C --> F[macOS]
+    C --> G[Unknown]
 
-    F[Optional 3D] --> G[OpenGL]
-    F --> H[GLFW]
-    F --> I[GLEW]
+    H[Optional 3D] --> I[OpenGL]
+    H --> J[GLFW]
+    H --> K[GLEW]
 ```
+
+## Current Platform Status
+
+| Platform | v0.4.5 | v0.5.0 |
+|---|---|---|
+| Linux | Primary development and validation | Supported |
+| Windows | Portability in development | Official support |
+| macOS | Portability in development | Official support |
+
+> [!NOTE]
+> Platform detection for Linux, Windows and macOS is already present in the ToolCL core. Official Windows and macOS support will be completed in v0.5.0 with platform-specific support and official builds.
 
 ## Linux
 
@@ -969,12 +1086,18 @@ The core can be built without the optional 3D dependencies.
 
 ## Windows
 
-Windows is part of ToolCL's portability direction.
+Windows is part of ToolCL's official platform roadmap.
 
-The framework is designed to keep its core as portable as possible, while platform-specific build and compatibility work continues to evolve.
+The current v0.4.5 release contains platform detection for Windows, while the complete platform-specific support and official builds are planned for v0.5.0.
 
-> [!NOTE]
-> Portability of the C99 core and availability of the optional OpenGL development stack are separate concerns.
+## macOS
+
+macOS is part of ToolCL's official platform roadmap.
+
+The current v0.4.5 release contains platform detection for macOS, while the complete platform-specific support and official builds are planned for v0.5.0.
+
+> [!IMPORTANT]
+> ToolCL v0.4.5 should not be interpreted as an officially supported Windows or macOS release. Those platforms become officially supported with v0.5.0.
 
 ---
 
@@ -1031,6 +1154,12 @@ The examples are demonstrations of ToolCL functionality.
 
 The 3D examples demonstrate the interaction between ToolCL mathematics and OpenGL, but ToolCL is not intended to be a complete game engine or graphics engine.
 
+## Platform Development
+
+Platform support is developed incrementally.
+
+The current release establishes the platform detection foundation, while **v0.5.0** expands that foundation into official Windows and macOS support with platform-specific code and official builds.
+
 ---
 
 # ToolGits
@@ -1063,4 +1192,4 @@ Created by [enzobobdevvideos04-ctrl](https://github.com/enzobobdevvideos04-ctrl)
 
 Maintained under [ToolGits](https://github.com/ToolGits)
 
-</div>
+</div> 
