@@ -9,6 +9,5 @@ CREATE TABLE IF NOT EXISTS releases (
 	notes    TEXT NOT NULL DEFAULT ''
 );
 
--- Placeholder seed: replace with real ToolCL releases.
 INSERT INTO releases (version, codename, channel, released, notes)
-VALUES ('0.1.0', 'Workbench', 'stable', '2026-10-02', 'Placeholder release.');
+VALUES ('0.4.5', 'Workbench', 'stable', '2026-10-02', 'Placeholder release.');
