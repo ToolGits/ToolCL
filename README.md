@@ -10,6 +10,7 @@ A lightweight C99 framework for building portable applications with modular util
 [![Language](https://img.shields.io/badge/language-C99-blue?style=for-the-badge&logo=c)](https://en.cppreference.com/w/c)
 [![Build System](https://img.shields.io/badge/build-CMake-red?style=for-the-badge&logo=cmake)](https://cmake.org/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
+[![OpenRepos](https://img.shields.io/endpoint?url=https://openrepos.org/status/toolcl.repos.one.json&style=for-the-badge)](https://toolcl.repos.one/)
 [![Targets](https://img.shields.io/badge/targets-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey?style=for-the-badge)](#portability)
 
 </div>
